@@ -1,0 +1,61 @@
+services:
+  php:
+    build:
+      context: ./docker/config/php
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.4}
+        COMPOSER_VERSION: ${COMPOSER_VERSION:-latest}
+        NODE_VERSION: ${NODE_VERSION:-latest}
+    container_name: bookhub-php
+    hostname: bookhub-php
+    restart: always
+    working_dir: /app
+    environment:
+      TZ: America/Sao_Paulo
+    volumes:
+      - .:/app:rw
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - default
+
+  proxy:
+    image: nginx:latest
+    container_name: bookhub-nginx-proxy
+    user: root
+    tty: true
+    restart: always
+    depends_on:
+      - php
+    volumes:
+      - ./docker/config/proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./public:/app/public
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - default
+
+  mysql:
+    image: mysql:${MYSQL_VERSION:-8.0}
+    container_name: bookhub-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-bookhub}
+      MYSQL_USER: ${MYSQL_USER:-bookhub}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-bookhub}
+      TZ: America/Sao_Paulo
+    volumes:
+      - bookhub_mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+
+volumes:
+  bookhub_mysql_data:
+
+networks:
+  default:
+    driver: bridge
+    name: default_bridge_docker_network_interface
