@@ -1,0 +1,105 @@
+<div class="modal fade" id="newBookModal" tabindex="-1" aria-labelledby="newBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="newBookModalLabel"><i class="bi bi-plus-lg"></i> Novo livro
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ path('app_book_new') }}" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="new-title" class="col-form-label">Título:</label>
+                        <input name="title" type="text" maxlength="40" class="form-control" id="new-title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-publisher" class="col-form-label">Editora:</label>
+                        <input name="publisher" type="text" maxlength="40" class="form-control" id="new-publisher"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-edition" class="col-form-label">Edição:</label>
+                        <input name="edition" type="number" min="1" max="99999" class="form-control" id="new-edition"
+                            placeholder="Ex: 5" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-yearOfPublication" class="col-form-label">Ano de publicação:</label>
+                        <input name="yearOfPublication" type="number" min="1" max="9999" class="form-control"
+                            id="new-yearOfPublication" placeholder="Ex: 1999" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-authors" class="col-form-label">Autor(es):</label>
+                        <select name="authors[]" id="new-authors" class="form-select select2" multiple required
+                            data-placeholder="Selecione um ou mais autor(es)">
+                            {% for author in authors %}
+                            <option value="{{ author.id }}">{{ author.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-subjects" class="col-form-label">Assunto(s):</label>
+                        <select name="subjects[]" id="new-subjects" class="form-select select2" multiple required
+                            data-placeholder="Selecione um ou mais assunto(s)">
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.description }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#editBookModal').on('show.bs.modal', function (event) {
+            const btn = $(event.relatedTarget);
+            const id = btn.data('id');
+            const title = btn.data('title');
+            const publisher = btn.data('publisher');
+            const edition = btn.data('edition');
+            const year = btn.data('year');
+            const authors = btn.data('authors') ? btn.data('authors').toString().split(',') : [];
+            const subjects = btn.data('subjects') ? btn.data('subjects').toString().split(',') : [];
+
+            // Ajusta action do form
+            let formAction = "{{ path('app_book_edit', {'id': 'BOOK_ID'}) }}";
+            formAction = formAction.replace('BOOK_ID', id);
+            $('#editBookForm').attr('action', formAction);
+
+            // Preenche inputs simples
+            $('#edit-title').val(title);
+            $('#edit-publisher').val(publisher);
+            $('#edit-edition').val(edition);
+            $('#edit-yearOfPublication').val(year);
+
+            // Inicializa e seta valores no Select2 de autores
+            const $authors = $('#edit-authors')
+                .val(authors)
+                .trigger('change');
+
+            // Mesma coisa para subjects
+            const $subjects = $('#edit-subjects')
+                .val(subjects)
+                .trigger('change');
+        });
+
+        $('#new-yearOfPublication').on('input', function () {
+            let val = $(this).val();
+            if (val.length > 4) {
+                $(this).val(val.slice(0, 4));
+            }
+        });
+
+        $('#new-edition').on('input', function () {
+            let val = $(this).val();
+            if (val.length > 5) {
+                $(this).val(val.slice(0, 5));
+            }
+        });
+    });
+</script>

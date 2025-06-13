@@ -39,7 +39,9 @@ RUN apt update && apt install -y \
     zsh \
     iputils-ping \
     tzdata \
-    gnupg
+    gnupg \
+    wkhtmltopdf
+
 
 # Timezone
 ENV TZ=America/Sao_Paulo

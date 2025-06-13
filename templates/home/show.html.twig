@@ -1,0 +1,55 @@
+{# templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<main class="container py-5">
+  <!-- Header -->
+  <div class="text-center mb-5">
+    <img src="{{ asset('build/images/logo/bookhub_logo_1.png') }}" alt="Bookhub Logo" width="200" class="mb-3">
+    <p class="lead">Sistema web de gestão de acervo bibliográfico</p>
+  </div>
+
+  <!-- Badges -->
+  <div class="d-flex justify-content-center flex-wrap mb-5">
+    <a href="https://php.net/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/PHP-8.4-blue?labelColor=17191E&style=flat&logo=PHP" alt="PHP 8.4">
+    </a>
+    <a href="https://getcomposer.org/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/Composer-latest-black?labelColor=17191E&style=flat&logo=Composer" alt="Composer">
+    </a>
+    <a href="https://nodejs.org/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/Node.js-22.16.0-green?labelColor=17191E&style=flat&logo=Node.js" alt="Node.js">
+    </a>
+    <a href="https://mysql.com/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/MySQL-8.0-blue?labelColor=17191E&style=flat&logo=MySQL" alt="MySQL">
+    </a>
+    <a href="https://docker.com/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/Docker-28.1.1-blue?labelColor=17191E&style=flat&logo=Docker" alt="Docker">
+    </a>
+  </div>
+
+  <!-- Features Card -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Funcionalidades</h2>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Cadastrar, editar, visualizar e remover <strong>Livros</strong>, <strong>Autores</strong> e <strong>Assuntos</strong>.
+            </li>
+            <li class="list-group-item">
+              Relacionar livros a múltiplos autores e assuntos de forma flexível.
+            </li>
+            <li class="list-group-item">
+              Gerar relatórios agrupando por autor, exibindo título, assunto, data de publicação e valor do livro.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
