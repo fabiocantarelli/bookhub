@@ -18,9 +18,10 @@ services:
     networks:
       - default
 
-  proxy:
+  nginx:
     image: nginx:latest
-    container_name: bookhub-nginx-proxy
+    container_name: bookhub-nginx
+    hostname: bookhub-nginx
     user: root
     tty: true
     restart: always

@@ -41,13 +41,7 @@ Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
 
 **Obs:** Os comandos abaixo também estão presentes no makefile, caso tenha o pacote **make** instalado, basta rodar `make help`
 
-1. **Build e inicialização dos containers**
-
-   ```bash
-   docker compose up -d --build
-   ```
-
-2. **Configuração de variáveis de ambiente**
+1. **Configuração de variáveis de ambiente**
    Copie o arquivo de exemplo e ajuste as credenciais de acesso ao MySQL:
 
    ```bash
@@ -61,6 +55,12 @@ Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
    MYSQL_USER=bookhub
    MYSQL_PASSWORD=bookhub
    MYSQL_ROOT_PASSWORD=root
+   ```
+
+2. **Build e inicialização dos containers**
+
+   ```bash
+   docker compose up -d --build
    ```
 
 3. **Instalação de dependências**
@@ -111,27 +111,25 @@ Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configu
 ## Configuração de rotas
 
 ```bash
--------------------- -------- -------- ------ -------------------------- 
-  Name                 Method   Scheme   Host   Path                      
- -------------------- -------- -------- ------ -------------------------- 
-  _preview_error       ANY      ANY      ANY    /_error/{code}.{_format}  
-  
-  app_author_index     GET      ANY      ANY    /author/                  
-  app_author_new       POST     ANY      ANY    /author/                  
-  app_author_edit      PUT      ANY      ANY    /author/{id}              
-  app_author_delete    DELETE   ANY      ANY    /author/{id}  
-
-  app_book_index       GET      ANY      ANY    /book/                    
-  app_book_new         POST     ANY      ANY    /book/                    
-  app_book_edit        PUT      ANY      ANY    /book/{id}                
-  app_book_delete      DELETE   ANY      ANY    /book/{id} 
-
-  app_home_index       ANY      ANY      ANY    /                         
-  app_subject_index    GET      ANY      ANY    /subject/                 
-  app_subject_new      POST     ANY      ANY    /subject/                 
-  app_subject_edit     PUT      ANY      ANY    /subject/{id}             
-  app_subject_delete   DELETE   ANY      ANY    /subject/{id}             
- -------------------- -------- -------- ------ --------------------------
+ --------------------- -------- -------- ------ -------------------------- 
+  Name                  Method   Scheme   Host   Path                      
+ --------------------- -------- -------- ------ -------------------------- 
+  _preview_error        ANY      ANY      ANY    /_error/{code}.{_format}  
+  app_author_index      GET      ANY      ANY    /author/                  
+  app_author_new        POST     ANY      ANY    /author/                  
+  app_author_edit       PUT      ANY      ANY    /author/{id}              
+  app_author_delete     DELETE   ANY      ANY    /author/{id}              
+  app_book_index        GET      ANY      ANY    /book/                    
+  app_book_new          POST     ANY      ANY    /book/                    
+  app_book_edit         PUT      ANY      ANY    /book/{id}                
+  app_book_delete       DELETE   ANY      ANY    /book/{id}                
+  app_home_index        ANY      ANY      ANY    /                         
+  app_report_generate   GET      ANY      ANY    /report/generate          
+  app_subject_index     GET      ANY      ANY    /subject/                 
+  app_subject_new       POST     ANY      ANY    /subject/                 
+  app_subject_edit      PUT      ANY      ANY    /subject/{id}             
+  app_subject_delete    DELETE   ANY      ANY    /subject/{id}             
+ --------------------- -------- -------- ------ --------------------------
  ```
 
 ## Estrutura de pastas e arquivos do projeto
