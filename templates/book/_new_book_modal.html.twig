@@ -1,8 +1,8 @@
-<div class="modal fade" id="newBookModal" tabindex="-1" aria-labelledby="newBookModalLabel" aria-hidden="true">
+<div class="modal fade" id="new-bookModal" tabindex="-1" aria-labelledby="new-bookModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-bg-primary">
-                <h1 class="modal-title fs-5" id="newBookModalLabel"><i class="bi bi-plus-lg"></i> Novo livro
+                <h1 class="modal-title fs-5" id="new-bookModalLabel"><i class="bi bi-plus-lg"></i> Novo livro
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -26,6 +26,11 @@
                         <label for="new-yearOfPublication" class="col-form-label">Ano de publicação:</label>
                         <input name="yearOfPublication" type="number" min="1" max="9999" class="form-control"
                             id="new-yearOfPublication" placeholder="Ex: 1999" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-price" class="col-form-label">Preço:</label>
+                        <input name="price" type="number" step="0.01" min="0.01" max="99999.99" class="form-control" id="new-price"
+                            placeholder="Ex: 25.99" required>
                     </div>
                     <div class="mb-3">
                         <label for="new-authors" class="col-form-label">Autor(es):</label>
@@ -56,38 +61,6 @@
 
 <script>
     $(document).ready(function () {
-        $('#editBookModal').on('show.bs.modal', function (event) {
-            const btn = $(event.relatedTarget);
-            const id = btn.data('id');
-            const title = btn.data('title');
-            const publisher = btn.data('publisher');
-            const edition = btn.data('edition');
-            const year = btn.data('year');
-            const authors = btn.data('authors') ? btn.data('authors').toString().split(',') : [];
-            const subjects = btn.data('subjects') ? btn.data('subjects').toString().split(',') : [];
-
-            // Ajusta action do form
-            let formAction = "{{ path('app_book_edit', {'id': 'BOOK_ID'}) }}";
-            formAction = formAction.replace('BOOK_ID', id);
-            $('#editBookForm').attr('action', formAction);
-
-            // Preenche inputs simples
-            $('#edit-title').val(title);
-            $('#edit-publisher').val(publisher);
-            $('#edit-edition').val(edition);
-            $('#edit-yearOfPublication').val(year);
-
-            // Inicializa e seta valores no Select2 de autores
-            const $authors = $('#edit-authors')
-                .val(authors)
-                .trigger('change');
-
-            // Mesma coisa para subjects
-            const $subjects = $('#edit-subjects')
-                .val(subjects)
-                .trigger('change');
-        });
-
         $('#new-yearOfPublication').on('input', function () {
             let val = $(this).val();
             if (val.length > 4) {

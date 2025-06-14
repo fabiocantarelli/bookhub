@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/book', name: 'app_book_')]
-final class BookController extends AbstractController implements AbstractControllerInterface
+final class BookController extends AbstractController implements AbstractCrudControllerInterface
 {
     public function __construct(
         private readonly BookRepository $bookRepository,
@@ -23,18 +23,16 @@ final class BookController extends AbstractController implements AbstractControl
         private readonly SubjectRepository $subjectRepository,
         private readonly BookRequestValidator $bookRequestValidator,
 
-    ) {
-        
-    }
+    ) {}
 
-    #[Route('/', name: 'list', methods: [Request::METHOD_GET])]
-    public function list(): Response
+    #[Route('/', name: 'index', methods: [Request::METHOD_GET])]
+    public function index(): Response
     {
         $books = $this->bookRepository->findAll();
         $authors = $this->authorRepository->findAll();
         $subjects = $this->subjectRepository->findAll();
 
-        return $this->render('book/list.html.twig', [
+        return $this->render('book/index.html.twig', [
             'title' => 'Livros',
             'books' => $books,
             'authors' => $authors,
@@ -52,16 +50,16 @@ final class BookController extends AbstractController implements AbstractControl
             $this->bookRepository->save($bookDto);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro inserido com sucesso!');
-        
-            return $this->redirectToRoute('app_book_list');
+
+            return $this->redirectToRoute('app_book_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
-            return $this->redirectToRoute('app_book_list');
+            return $this->redirectToRoute('app_book_index');
         }
     }
 
-    #[Route('/{id}', name: 'edit', methods: [Request::METHOD_POST])]
-    public function edit(int $id, Request $request): Response
+    #[Route('/{id}', name: 'edit', methods: [Request::METHOD_PUT])]
+    public function edit(Request $request): Response
     {
         try {
             $bookDto = $this->bookRequestValidator->validateEditRequest($request);
@@ -69,14 +67,14 @@ final class BookController extends AbstractController implements AbstractControl
             $this->bookRepository->update($bookDto);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro editado com sucesso!');
-            return $this->redirectToRoute('app_book_list');
+            return $this->redirectToRoute('app_book_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
-            return $this->redirectToRoute('app_book_list');
+            return $this->redirectToRoute('app_book_index');
         }
     }
 
-    #[Route('/{id}/delete', name: 'delete', methods: [Request::METHOD_GET])]
+    #[Route('/{id}', name: 'delete', methods: [Request::METHOD_DELETE])]
     public function delete(Request $request): Response
     {
         try {
@@ -85,10 +83,10 @@ final class BookController extends AbstractController implements AbstractControl
             $this->bookRepository->delete($bookDto);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');
-            return $this->redirectToRoute('app_book_list');
+            return $this->redirectToRoute('app_book_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
-            return $this->redirectToRoute('app_book_list');
+            return $this->redirectToRoute('app_book_index');
         }
     }
 }

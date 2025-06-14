@@ -14,17 +14,12 @@ class AuthorRequestValidator
 
     public function __construct(
         readonly private AuthorRepository $authorRepository
-    ) {
-        
-    }
+    ) {}
 
     public function validateNewRequest(Request $request): AuthorDto
     {
         $name = $request->get('name');
-
-        if (empty($name)) {
-            throw new \Exception('Você não pode cadastrar um autor com o nome vazio!');
-        }
+        $this->validateName($name);
 
         return (new AuthorDto)
             ->setName($name);
@@ -33,24 +28,13 @@ class AuthorRequestValidator
     public function validateEditRequest(Request $request): AuthorDto
     {
         $id = (int) $request->get('id');
+        $name = $request->get('name');
 
         if (empty($id)) {
             throw new \Exception('Id não informado ou inválido!');
         }
 
-        $name = $request->get('name');
-
-        if (mb_strlen($name, 'UTF-8') > self::NAME_MAX_LENGTH) {
-            throw new \Exception(
-                'Você não pode inserir um nome maior que '
-                    . self::NAME_MAX_LENGTH
-                    . ' caracteres'
-            );
-        }
-
-        if (empty($name)) {
-            throw new \Exception('Você não pode atualizar para um nome vazio!');
-        }
+        $this->validateName($name, $id);
 
         return (new AuthorDto)
             ->setId($id)
@@ -73,5 +57,28 @@ class AuthorRequestValidator
 
         return (new AuthorDto)
             ->setId($id);
+    }
+
+    private function validateName(string $name, ?int $id = null): void
+    {
+        if (empty($name)) {
+            throw new \Exception('Você não pode inserir um nome vazio!');
+        }
+
+        if (mb_strlen($name, 'UTF-8') > self::NAME_MAX_LENGTH) {
+            throw new \Exception(
+                'Você não pode inserir um nome maior que '
+                . self::NAME_MAX_LENGTH
+                . ' caracteres'
+            );
+        }
+
+        $findAuthor = $this->authorRepository->findOneBy([
+            'name' => $name
+        ]);
+
+        if ($findAuthor && $findAuthor->getId() !== $id) {
+            throw new \Exception('Autor já existe!');
+        }
     }
 }

@@ -25,7 +25,8 @@ class BookRepository extends ServiceEntityRepository
             ->setTitle($bookDto->getTitle())
             ->setPublisher($bookDto->getPublisher())
             ->setEdition($bookDto->getEdition())
-            ->setYearOfPublication($bookDto->getYearOfPublication());
+            ->setYearOfPublication($bookDto->getYearOfPublication())
+            ->setPrice($bookDto->getPrice());
 
         foreach ($bookDto->getAuthors() as $autor) {
             $book->addAuthor($autor);
@@ -47,7 +48,8 @@ class BookRepository extends ServiceEntityRepository
             ->setTitle($bookDto->getTitle())
             ->setPublisher($bookDto->getPublisher())
             ->setEdition($bookDto->getEdition())
-            ->setYearOfPublication($bookDto->getYearOfPublication());
+            ->setYearOfPublication($bookDto->getYearOfPublication())
+            ->setPrice($bookDto->getPrice());
 
     
         foreach ($book->getAuthors() as $author) {

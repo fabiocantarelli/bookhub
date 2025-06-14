@@ -14,6 +14,7 @@ class BookDto
     private ?string $publisher = null;
     private ?int $edition = null;
     private ?string $yearOfPublication = null;
+    private ?float $price = null;
 
     /** @var Author[] */
     private array $authors = [];
@@ -73,6 +74,17 @@ class BookDto
     public function setYearOfPublication(string $year): self
     {
         $this->yearOfPublication = $year;
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
         return $this;
     }
 

@@ -1,0 +1,41 @@
+<div class="modal fade" id="edit-authorModal" tabindex="-1" aria-labelledby="edit-authorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-warning">
+                <h1 class="modal-title fs-5" id="edit-authorModalLabel"><i class="bi bi-pencil-fill"></i> Editar
+                    autor</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="edit-authorForm" method="post">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-name" class="col-form-label">Nome:</label>
+                        <input name="name" type="text" maxlength="40" class="form-control" id="edit-name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('#edit-authorModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            let authorId = button.data('id');
+            let name = button.data('name');
+
+            // Preencher input
+            $('#edit-name').val(name);
+
+            // Ajustar action do form, usando a rota com o id
+            let formAction = "{{ path('app_author_edit', {'id': 'AUTHOR_ID'}) }}";
+            formAction = formAction.replace('AUTHOR_ID', authorId);
+            $('#edit-authorForm').attr('action', formAction);
+        });
+    });
+</script>

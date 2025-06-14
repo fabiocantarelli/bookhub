@@ -31,6 +31,9 @@ class Book
     #[ORM\Column(name: 'AnoPublicacao', type: Types::STRING, length: 4, nullable: false)]
     private ?string $yearOfPublication = null;
 
+    #[ORM\Column(name: 'Valor', type: Types::FLOAT, precision: 10, scale: 2, nullable: false)]
+    private ?float $price = null;
+
     #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
     #[ORM\JoinTable(name: 'Livro_Autor')]
     #[ORM\JoinColumn(name: 'Livro_id', referencedColumnName: 'id')]
@@ -152,6 +155,18 @@ class Book
         if ($this->subjects->removeElement($subject)) {
             $subject->removeBook($this);
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

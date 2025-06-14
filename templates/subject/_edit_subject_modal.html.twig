@@ -1,0 +1,43 @@
+<div class="modal fade" id="edit-subjectModal" tabindex="-1" aria-labelledby="edit-subjectModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-warning">
+                <h1 class="modal-title fs-5" id="edit-subjectModalLabel"><i class="bi bi-pencil-fill"></i> Editar
+                    assunto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="edit-subjectForm" method="post">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-description" class="col-form-label">Descrição:</label>
+                        <input name="description" type="text" maxlength="20" class="form-control" id="edit-description"
+                            required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-floppy-fill"></i> Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('#edit-subjectModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget);
+            let subjectId = button.data('id');
+            let description = button.data('description');
+
+            // Preencher input
+            $('#edit-description').val(description);
+
+            // Ajustar action do form, usando a rota com o id
+            let formAction = "{{ path('app_subject_edit', {'id': 'SUBJECT_ID'}) }}";
+            formAction = formAction.replace('SUBJECT_ID', subjectId);
+            $('#edit-subjectForm').attr('action', formAction);
+        });
+    });
+</script>

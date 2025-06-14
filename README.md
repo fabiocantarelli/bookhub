@@ -39,11 +39,7 @@ Em essência, o Bookhub serve como ponto central para organizar e consultar info
 
 Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
 
-Os comandos abaixo também estão presentes no makefile, caso tenha o pacote **make** instalado, basta rodar:
-
-```bash
-  make help
-```
+**Obs:** Os comandos abaixo também estão presentes no makefile, caso tenha o pacote **make** instalado, basta rodar `make help`
 
 1. **Build e inicialização dos containers**
 
@@ -112,6 +108,32 @@ Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configu
    ```
 ---
 
+## Configuração de rotas
+
+```bash
+-------------------- -------- -------- ------ -------------------------- 
+  Name                 Method   Scheme   Host   Path                      
+ -------------------- -------- -------- ------ -------------------------- 
+  _preview_error       ANY      ANY      ANY    /_error/{code}.{_format}  
+  
+  app_author_index     GET      ANY      ANY    /author/                  
+  app_author_new       POST     ANY      ANY    /author/                  
+  app_author_edit      PUT      ANY      ANY    /author/{id}              
+  app_author_delete    DELETE   ANY      ANY    /author/{id}  
+
+  app_book_index       GET      ANY      ANY    /book/                    
+  app_book_new         POST     ANY      ANY    /book/                    
+  app_book_edit        PUT      ANY      ANY    /book/{id}                
+  app_book_delete      DELETE   ANY      ANY    /book/{id} 
+
+  app_home_index       ANY      ANY      ANY    /                         
+  app_subject_index    GET      ANY      ANY    /subject/                 
+  app_subject_new      POST     ANY      ANY    /subject/                 
+  app_subject_edit     PUT      ANY      ANY    /subject/{id}             
+  app_subject_delete   DELETE   ANY      ANY    /subject/{id}             
+ -------------------- -------- -------- ------ --------------------------
+ ```
+
 ## Estrutura de pastas e arquivos do projeto
 
 ```
@@ -165,7 +187,7 @@ Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configu
 ├── README.md
 ├── src
 │   ├── Controller
-│   │   ├── AbstractControllerInterface.php
+│   │   ├── AbstractCrudControllerInterface.php
 │   │   ├── AuthorController.php
 │   │   ├── BookController.php
 │   │   ├── HomeController.php

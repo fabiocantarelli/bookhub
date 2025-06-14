@@ -54,26 +54,26 @@
                 <hr>
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item mb-1">
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_home_show' %}active{% endif %}"
-                            href="{{ path('app_home_show') }}">
+                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_home_index' %}active{% endif %}"
+                            href="{{ path('app_home_index') }}">
                             <i class="bi bi-house me-2"></i> Home
                         </a>
                     </li>
                     <li class="nav-item mb-1">
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_book_list' %}active{% endif %}"
-                            href="{{ path('app_book_list') }}">
+                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_book_index' %}active{% endif %}"
+                            href="{{ path('app_book_index') }}">
                             <i class="bi bi-journal-bookmark-fill me-2"></i> Livros
                         </a>
                     </li>
                     <li class="nav-item mb-1">
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_author_list' %}active{% endif %}"
-                            href="{{ path('app_author_list') }}">
+                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_author_index' %}active{% endif %}"
+                            href="{{ path('app_author_index') }}">
                             <i class="bi bi-person-lines-fill me-2"></i> Autores
                         </a>
                     </li>
                     <li class="nav-item mb-1">
-                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_subject_list' %}active{% endif %}"
-                            href="{{ path('app_subject_list') }}">
+                        <a class="nav-link {% if app.request.attributes.get('_route') == 'app_subject_index' %}active{% endif %}"
+                            href="{{ path('app_subject_index') }}">
                             <i class="bi bi-tags-fill me-2"></i> Assuntos
                         </a>
                     </li>

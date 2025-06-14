@@ -4,7 +4,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+{{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -18,7 +18,8 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newBookModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#new-bookModal">
                         <i class="bi bi-plus-lg"></i> Adicionar
                     </button>
                 </div>
@@ -33,6 +34,7 @@
                         <th class="text-center">Editora</th>
                         <th class="text-center">Edição</th>
                         <th class="text-center">Ano de publicação</th>
+                        <th class="text-center">Preço</th>
                         <th class="text-center">Autor(es)</th>
                         <th class="text-center">Assunto(s)</th>
                         <th class="text-center">-</th>
@@ -46,29 +48,32 @@
                         <td>{{ book.publisher }}</td>
                         <td>{{ book.edition }}</td>
                         <td>{{ book.yearOfPublication }}</td>
+                        <td>R$ {{ book.price|number_format(2, ',', '.') }}</td>
                         <td>
                             {% for author in book.authors %}
-                                {{ author.name }}<br>
+                            {{ author.name }}<br>
                             {% endfor %}
                         </td>
                         <td>
                             {% for subject in book.subjects %}
-                                {{ subject.description }}<br>
+                            {{ subject.description }}<br>
                             {% endfor %}
                         </td>
 
-                        <td class="text-center">
-                            <button type="button" class="btn btn-warning edit-book-btn me-2" data-bs-toggle="modal"
-                                data-bs-target="#editBookModal" data-id="{{ book.id }}" data-title="{{ book.title }}"
-                                data-publisher="{{ book.publisher }}" data-edition="{{ book.edition }}"
-                                data-year="{{ book.yearOfPublication }}"
-                                data-authors="{{ book.authors|map(a=>a.id)|join(',') }}"
+                        <td>
+                            <button type="button" class="btn btn-warning edit-book-btn me-2 mb-1 w-100"
+                                data-bs-toggle="modal" data-bs-target="#edit-bookModal" data-id="{{ book.id }}"
+                                data-title="{{ book.title }}" data-publisher="{{ book.publisher }}"
+                                data-edition="{{ book.edition }}" data-year="{{ book.yearOfPublication }}"
+                                data-price="{{ book.price }}" data-authors="{{ book.authors|map(a=>a.id)|join(',') }}"
                                 data-subjects="{{ book.subjects|map(s=>s.id)|join(',') }}">
                                 <i class="bi bi-pencil-fill"></i> Atualizar
                             </button>
-                            <a href="{{ path('app_book_delete', { id: book.id }) }}" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Deletar
-                            </a>
+                            <form action="{{ path('app_book_delete', { id: book.id }) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger w-100"><i class="bi bi-trash"></i>
+                                    Deletar</button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}
@@ -84,6 +89,14 @@
 <script>
     $(document).ready(() => {
         $('#books-table').DataTable({
+            autoWidth: false,
+            columnDefs: [
+                {
+                    targets: [-1],
+                    width: '180px',
+                    className: 'text-center'
+                }
+            ],
             language: {
                 url: "{{ asset('build/datatables/plugins/translate/pt-BR.json') }}"
             },

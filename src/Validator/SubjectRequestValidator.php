@@ -14,15 +14,12 @@ class SubjectRequestValidator
 
     public function __construct(
         readonly private SubjectRepository $subjectRepository
-    ) {
-        
-    }
+    ) {}
     
     public function validateNewRequest(Request $request): SubjectDto
     {
-        $this->basicRequestValidate($request);
-
         $description = $request->get('description');
+        $this->validateDescription($description);
 
         return (new SubjectDto)
             ->setDescription($description);
@@ -30,8 +27,6 @@ class SubjectRequestValidator
 
     public function validateEditRequest(Request $request): SubjectDto
     {
-        $this->basicRequestValidate($request);
-
         $id = (int) $request->get('id');
         $description = $request->get('description');
 
@@ -39,13 +34,7 @@ class SubjectRequestValidator
             throw new \Exception('Id não informado ou inválido!');
         }
 
-        $findSubject = $this->subjectRepository->findOneBy([
-            'description' => $description
-        ]);
-
-        if (!empty($findSubject)) {
-            throw new \Exception('Descrição já existe!');
-        }
+        $this->validateDescription($description, $id);
 
         return (new SubjectDto)
             ->setId($id)
@@ -72,20 +61,26 @@ class SubjectRequestValidator
             ->setId($id);
     }
 
-    private function basicRequestValidate(Request $request)
+    private function validateDescription(string $description, ?int $id = null): void
     {
-        $description = $request->get('description');
-
         if (empty($description)) {
             throw new \Exception('Você não pode inserir uma descrição vazia!');
         }
 
         if (mb_strlen($description, 'UTF-8') > self::DESCRIPTION_MAX_LENGTH) {
             throw new \Exception(
-                'Você não pode inserir uma descrição maior que ' 
-                . self::DESCRIPTION_MAX_LENGTH 
+                'A descrição não pode ter mais de '
+                . self::DESCRIPTION_MAX_LENGTH
                 . ' caracteres'
             );
+        }
+
+        $findSubject = $this->subjectRepository->findOneBy([
+            'description' => $description
+        ]);
+
+        if ($findSubject && $findSubject->getId() !== $id) {
+            throw new \Exception('Descrição já existe!');
         }
     }
 }
