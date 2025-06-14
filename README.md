@@ -177,7 +177,6 @@ Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configu
 ├── docker-compose.yaml
 ├── makefile
 ├── migrations
-│   └── Version20250613003116.php
 ├── package.json
 ├── package-lock.json
 ├── public
