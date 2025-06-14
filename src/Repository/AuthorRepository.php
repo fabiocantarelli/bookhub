@@ -20,7 +20,7 @@ class AuthorRepository extends ServiceEntityRepository
     public function save(AuthorDto $authorDto): void
     {
         $em = $this->getEntityManager();
-        
+
         $author = new Author();
         $author->setName($authorDto->getName());
 
@@ -31,7 +31,7 @@ class AuthorRepository extends ServiceEntityRepository
     public function update(AuthorDto $authorDto): void
     {
         $em = $this->getEntityManager();
-        
+
         $author = $this->find($authorDto->getId());
         $author->setName($authorDto->getName());
 
@@ -39,7 +39,7 @@ class AuthorRepository extends ServiceEntityRepository
         $em->flush();
     }
 
-    public function delete(AuthorDto $authorDto)
+    public function delete(AuthorDto $authorDto): void
     {
         $em = $this->getEntityManager();
 

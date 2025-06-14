@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-class SubjectDto {
-
+class SubjectDto
+{
     private ?int $id = null;
     private ?string $description = null;
 

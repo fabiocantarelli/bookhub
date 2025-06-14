@@ -51,19 +51,19 @@ class BookRepository extends ServiceEntityRepository
             ->setYearOfPublication($bookDto->getYearOfPublication())
             ->setPrice($bookDto->getPrice());
 
-    
+
         foreach ($book->getAuthors() as $author) {
             $book->removeAuthor($author);
         }
-        
+
         foreach ($bookDto->getAuthors() as $dtoAuthor) {
             $book->addAuthor($dtoAuthor);
         }
-    
+
         foreach ($book->getSubjects() as $subject) {
             $book->removeSubject($subject);
         }
-        
+
         foreach ($bookDto->getSubjects() as $dtoSubject) {
             $book->addSubject($dtoSubject);
         }
@@ -71,7 +71,7 @@ class BookRepository extends ServiceEntityRepository
         $em->flush();
     }
 
-    public function delete(BookDto $bookDto)
+    public function delete(BookDto $bookDto): void
     {
         $em = $this->getEntityManager();
 

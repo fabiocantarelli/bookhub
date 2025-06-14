@@ -18,7 +18,8 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     public function __construct(
         private readonly AuthorRequestValidator $authorRequestValidator,
         private readonly AuthorRepository $authorRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: [Request::METHOD_GET])]
     public function index(): Response

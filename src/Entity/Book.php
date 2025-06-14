@@ -17,6 +17,7 @@ class Book
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(name: 'Titulo', type: Types::STRING, length: 40, nullable: false)]
@@ -34,12 +35,18 @@ class Book
     #[ORM\Column(name: 'Valor', type: Types::FLOAT, precision: 10, scale: 2, nullable: false)]
     private ?float $price = null;
 
+    /**
+     * @var Collection<int, Author>
+     */
     #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
     #[ORM\JoinTable(name: 'Livro_Autor')]
     #[ORM\JoinColumn(name: 'Livro_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'Autor_id', referencedColumnName: 'id')]
     private Collection $authors;
 
+    /**
+     * @var Collection<int, Subject>
+     */
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'books')]
     #[ORM\JoinTable(name: 'Livro_Assunto')]
     #[ORM\JoinColumn(name: 'Livro_id', referencedColumnName: 'id')]
@@ -106,7 +113,7 @@ class Book
     }
 
     /**
-     * @return Author[]
+     * @return Collection<int, Author>
      */
     public function getAuthors(): Collection
     {

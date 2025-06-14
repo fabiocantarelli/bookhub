@@ -34,7 +34,7 @@ class AuthorFixtures extends Fixture
             'Oscar Wilde',
             'Virginia Woolf'
         ];
-    
+
         foreach ($authorsData as $authorName) {
             $author = new Author();
             $author->setName($authorName);

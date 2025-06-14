@@ -9,6 +9,8 @@ use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
 use App\Repository\SubjectRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Author;
+use App\Entity\Subject;
 
 final class BookRequestValidator
 {
@@ -22,7 +24,8 @@ final class BookRequestValidator
         readonly private BookRepository $bookRepository,
         readonly private AuthorRepository $authorRepository,
         readonly private SubjectRepository $subjectRepository
-    ) {}
+    ) {
+    }
 
     public function validateNewRequest(Request $request): BookDto
     {
@@ -35,19 +38,19 @@ final class BookRequestValidator
         $subjectIds = $request->get('subjects');
 
         $this->validateBookData(
-            $title, 
-            $publisher, 
-            $edition, 
-            $yearOfPublication, 
-            $price, 
-            $authorIds, 
+            $title,
+            $publisher,
+            $edition,
+            $yearOfPublication,
+            $price,
+            $authorIds,
             $subjectIds
         );
 
         $authors = $this->getAuthorsFromIds($authorIds);
         $subjects = $this->getSubjectsFromIds($subjectIds);
 
-        return (new BookDto)
+        return (new BookDto())
             ->setTitle($title)
             ->setPublisher($publisher)
             ->setEdition($edition)
@@ -77,7 +80,7 @@ final class BookRequestValidator
         $authors = $this->getAuthorsFromIds($authorIds);
         $subjects = $this->getSubjectsFromIds($subjectIds);
 
-        return (new BookDto)
+        return (new BookDto())
             ->setId($id)
             ->setTitle($title)
             ->setPublisher($publisher)
@@ -96,10 +99,22 @@ final class BookRequestValidator
             throw new \Exception('Id não informado ou inválido!');
         }
 
-        return (new BookDto)
+        return (new BookDto())
             ->setId($id);
     }
 
+    /**
+     * @param string $title
+     * @param string $publisher
+     * @param int $edition
+     * @param string $yearOfPublication
+     * @param float $price
+     * @param int[] $authorIds
+     * @param int[] $subjectIds
+     * @param int|null $id
+     *
+     * @return void
+     */
     private function validateBookData(
         string $title,
         string $publisher,
@@ -130,7 +145,9 @@ final class BookRequestValidator
         }
 
         if (mb_strlen($yearOfPublication, 'UTF-8') > self::YEAR_OF_PUBLICATION_MAX_LENGTH) {
-            throw new \Exception('O ano de publicação não pode ter mais de ' . self::YEAR_OF_PUBLICATION_MAX_LENGTH . ' caracteres.');
+            throw new \Exception(
+                'O ano de publicação não pode ter mais de ' . self::YEAR_OF_PUBLICATION_MAX_LENGTH . ' caracteres.'
+            );
         }
 
         if ($edition > self::MAX_EDITION) {
@@ -148,6 +165,11 @@ final class BookRequestValidator
         }
     }
 
+    /**
+     * @param int[] $authorIds
+     *
+     * @return Author[]
+     */
     private function getAuthorsFromIds(array $authorIds): array
     {
         $authors = [];
@@ -157,6 +179,11 @@ final class BookRequestValidator
         return $authors;
     }
 
+    /**
+     * @param int[] $subjectIds
+     *
+     * @return Subject[]
+     */
     private function getSubjectsFromIds(array $subjectIds): array
     {
         $subjects = [];

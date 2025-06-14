@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de livros por autor</title>
+    <style>
+        body { font-family: sans-serif; font-size: 12px; }
+        h1 { text-align: center; margin-bottom: 20px; }
+        h2 { margin-top: 30px; margin-bottom: 10px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 4px 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+        .text-right { text-align: right; }
+    </style>
+</head>
+<body>
+
+<h1>Relatório de livros por autor</h1>
+<div style="text-align: center;">
+    <img src="{{ logoDataUri }}" width="150px" alt="">
+</div>
+
+{% for author in authors %}
+    <h2>{{ author.id }} - {{ author.name }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Editora</th>
+                <th>Edição</th>
+                <th>Ano</th>
+                <th>Assuntos</th>
+                <th class="text-right">Valor (R$)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in author.books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.publisher }}</td>
+                    <td>{{ book.edition }}</td>
+                    <td>{{ book.yearOfPublication }}</td>
+                    <td>
+                        {% for subject in book.subjects %}
+                            - {{ subject.description }} <br>
+                        {% endfor %}
+                    </td>
+                    <td class="text-right">
+                        {{ book.price|number_format(2, ',', '.') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center">Nenhum livro cadastrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhum autor encontrado.</p>
+{% endfor %}
+
+</body>
+</html>

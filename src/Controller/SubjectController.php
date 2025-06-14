@@ -18,7 +18,8 @@ final class SubjectController extends AbstractController implements AbstractCrud
     public function __construct(
         private readonly SubjectRepository $subjectRepository,
         private readonly SubjectRequestValidator $subjectRequestValidator
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: [Request::METHOD_GET])]
     public function index(): Response
@@ -42,7 +43,7 @@ final class SubjectController extends AbstractController implements AbstractCrud
             $this->subjectRepository->save($subjectDto);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto inserido com sucesso!');
-        
+
             return $this->redirectToRoute('app_subject_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());

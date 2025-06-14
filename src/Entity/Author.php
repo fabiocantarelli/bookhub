@@ -17,11 +17,15 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(name: 'Nome', type: Types::STRING, length: 40, nullable: false)]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, Book>
+     */
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'authors')]
     private Collection $books;
 
@@ -48,7 +52,7 @@ class Author
     }
 
     /**
-     * @return Book[]
+     * @return Collection<int, Book>
      */
     public function getBooks(): Collection
     {

@@ -8,20 +8,21 @@ use App\Dto\SubjectDto;
 use App\Repository\SubjectRepository;
 use Symfony\Component\HttpFoundation\Request;
 
-class SubjectRequestValidator 
+class SubjectRequestValidator
 {
     private const DESCRIPTION_MAX_LENGTH = 20;
 
     public function __construct(
         readonly private SubjectRepository $subjectRepository
-    ) {}
-    
+    ) {
+    }
+
     public function validateNewRequest(Request $request): SubjectDto
     {
         $description = $request->get('description');
         $this->validateDescription($description);
 
-        return (new SubjectDto)
+        return (new SubjectDto())
             ->setDescription($description);
     }
 
@@ -36,12 +37,12 @@ class SubjectRequestValidator
 
         $this->validateDescription($description, $id);
 
-        return (new SubjectDto)
+        return (new SubjectDto())
             ->setId($id)
             ->setDescription($description);
     }
 
-    public function validateDeleteRequest(Request $request) : SubjectDto 
+    public function validateDeleteRequest(Request $request): SubjectDto
     {
         $id = (int) $request->get('id');
 
@@ -57,7 +58,7 @@ class SubjectRequestValidator
             );
         }
 
-        return (new SubjectDto)
+        return (new SubjectDto())
             ->setId($id);
     }
 

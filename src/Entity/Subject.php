@@ -15,11 +15,15 @@ class Subject
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
+    /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
     #[ORM\Column(name: 'Descricao', type: Types::STRING, length: 20, nullable: false)]
     private ?string $description = null;
 
+    /**
+     * @var Collection<int, Book>
+     */
     #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'subjects')]
     private Collection $books;
 
@@ -46,7 +50,7 @@ class Subject
     }
 
     /**
-     * @return Book[]
+     * @return Collection<int, Book>
      */
     public function getBooks(): Collection
     {

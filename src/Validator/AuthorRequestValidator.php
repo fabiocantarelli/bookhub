@@ -14,14 +14,15 @@ class AuthorRequestValidator
 
     public function __construct(
         readonly private AuthorRepository $authorRepository
-    ) {}
+    ) {
+    }
 
     public function validateNewRequest(Request $request): AuthorDto
     {
         $name = $request->get('name');
         $this->validateName($name);
 
-        return (new AuthorDto)
+        return (new AuthorDto())
             ->setName($name);
     }
 
@@ -36,7 +37,7 @@ class AuthorRequestValidator
 
         $this->validateName($name, $id);
 
-        return (new AuthorDto)
+        return (new AuthorDto())
             ->setId($id)
             ->setName($name);
     }
@@ -55,7 +56,7 @@ class AuthorRequestValidator
             throw new \Exception('Não é possivel remover o autor, existem livros vinculados a ele!');
         }
 
-        return (new AuthorDto)
+        return (new AuthorDto())
             ->setId($id);
     }
 

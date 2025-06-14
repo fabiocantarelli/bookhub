@@ -22,7 +22,7 @@ class SubjectRepository extends ServiceEntityRepository
     public function save(SubjectDto $subjectDto): void
     {
         $em = $this->getEntityManager();
-        
+
         $subject = new Subject();
         $subject->setDescription($subjectDto->getDescription());
 
@@ -33,7 +33,7 @@ class SubjectRepository extends ServiceEntityRepository
     public function update(SubjectDto $subjectDto): void
     {
         $em = $this->getEntityManager();
-        
+
         $subject = $this->find($subjectDto->getId());
         $subject->setDescription($subjectDto->getDescription());
 
@@ -41,7 +41,7 @@ class SubjectRepository extends ServiceEntityRepository
         $em->flush();
     }
 
-    public function delete(SubjectDto $subjectDto)
+    public function delete(SubjectDto $subjectDto): void
     {
         $em = $this->getEntityManager();
 

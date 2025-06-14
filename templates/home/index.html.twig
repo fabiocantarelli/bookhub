@@ -17,10 +17,12 @@
       <img src="https://img.shields.io/badge/PHP-8.4-blue?labelColor=17191E&style=flat&logo=PHP" alt="PHP 8.4">
     </a>
     <a href="https://getcomposer.org/" target="_blank" class="m-1">
-      <img src="https://img.shields.io/badge/Composer-latest-black?labelColor=17191E&style=flat&logo=Composer" alt="Composer">
+      <img src="https://img.shields.io/badge/Composer-latest-black?labelColor=17191E&style=flat&logo=Composer"
+        alt="Composer">
     </a>
     <a href="https://nodejs.org/" target="_blank" class="m-1">
-      <img src="https://img.shields.io/badge/Node.js-22.16.0-green?labelColor=17191E&style=flat&logo=Node.js" alt="Node.js">
+      <img src="https://img.shields.io/badge/Node.js-22.16.0-green?labelColor=17191E&style=flat&logo=Node.js"
+        alt="Node.js">
     </a>
     <a href="https://mysql.com/" target="_blank" class="m-1">
       <img src="https://img.shields.io/badge/MySQL-8.0-blue?labelColor=17191E&style=flat&logo=MySQL" alt="MySQL">
@@ -38,7 +40,8 @@
           <h2 class="card-title">Funcionalidades</h2>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Cadastrar, editar, visualizar e remover <strong>Livros</strong>, <strong>Autores</strong> e <strong>Assuntos</strong>.
+              Cadastrar, editar, visualizar e remover <strong>Livros</strong>, <strong>Autores</strong> e
+              <strong>Assuntos</strong>.
             </li>
             <li class="list-group-item">
               Relacionar livros a múltiplos autores e assuntos de forma flexível.
@@ -52,4 +55,9 @@
     </div>
   </div>
 </main>
+<div class="text-center">
+  <a href="{{ path('app_report_generate') }}" class="btn btn-primary" target="_blank">
+    <i class="bi bi-file-earmark-pdf text-danger"></i> Gerar Relatório PDF
+  </a>
+</div>
 {% endblock %}
