@@ -8,11 +8,20 @@
     <a href="https://php.net/" target="_blank" class="m-1">
       <img src="https://img.shields.io/badge/PHP-8.4-blue?labelColor=17191E&style=flat&logo=PHP" alt="PHP 8.4">
     </a>
-    <a href="https://getcomposer.org/" target="_blank" class="m-1">
-      <img src="https://img.shields.io/badge/Composer-latest-black?labelColor=17191E&style=flat&logo=Composer" alt="Composer">
+    <a href="https://symfony.com/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/symfony-7.3.0-white?labelColor=17191E&style=flat&logo=Symfony" alt="Symfony 7.3.0">
     </a>
     <a href="https://nodejs.org/" target="_blank" class="m-1">
       <img src="https://img.shields.io/badge/Node.js-22.16.0-green?labelColor=17191E&style=flat&logo=Node.js" alt="Node.js">
+    </a>
+    <a href="https://getcomposer.org/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/Composer-latest-black?labelColor=17191E&style=flat&logo=Composer" alt="Composer">
+    </a>
+    <a href="https://getbootstrap.com/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/bootstrap-5.3.6-purple?labelColor=17191E&style=flat&logo=Bootstrap" alt="Bootstrap 5.3.6">
+    </a>
+    <a href="https://nginx.org/" target="_blank" class="m-1">
+      <img src="https://img.shields.io/badge/Nginx-latest-blue?labelColor=17191E&style=flat&logo=Nginx" alt="Nginx">
     </a>
     <a href="https://mysql.com/" target="_blank" class="m-1">
       <img src="https://img.shields.io/badge/MySQL-8.0-blue?labelColor=17191E&style=flat&logo=MySQL" alt="MySQL">
@@ -89,7 +98,7 @@ Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
 
 Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configurada).
 
-1. **Carregamento de fixtures dev Autor(x20) / Assunto(x20) (opcional)**
+1. **Carregamento de fixtures dev Autor / Assunto / Livros (opcional)**
 
    ```bash
    docker exec -it bookhub-php bin/console doctrine:fixtures:load --append

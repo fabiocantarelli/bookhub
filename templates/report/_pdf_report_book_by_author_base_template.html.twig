@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de livros por autor</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 4px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .author-block {
+            page-break-inside: avoid;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Relatório de livros por autor</h1>
+
+    <div style="text-align: center;">
+        <img src="{{ logoDataUri }}" width="150px" alt="Logo">
+    </div>
+
+    <hr>
+
+    {% for author in booksByAuthors %}
+    <div class="author-block">
+        <h2>{{ author.authorId }} - {{ author.authorName }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Ano</th>
+                    <th>Editora</th>
+                    <th>Edição</th>
+                    <th>Assuntos</th>
+                    <th class="text-right">Valor (R$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if author.books %}
+                    {% for book in author.books %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.publisher }}</td>
+                            <td>{{ book.edition }}</td>
+                            <td>{{ book.yearOfPublication }}</td>
+                            <td>{{ book.subjects }}</td>
+                            <td class="text-right">{{ book.price }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center">Nenhum livro cadastrado.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p style="text-align: center;">Nenhum autor encontrado.</p>
+    {% endfor %}
+
+</body>
+
+</html>

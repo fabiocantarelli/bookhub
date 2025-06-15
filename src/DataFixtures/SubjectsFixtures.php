@@ -10,40 +10,30 @@ use Doctrine\Persistence\ObjectManager;
 
 class SubjectsFixtures extends Fixture
 {
+    public const SUBJECT_REFERENCE = 'subject';
+
     public function load(ObjectManager $manager): void
     {
+        $subjectRepository = $manager->getRepository(Subject::class);
+
         $subjectsData = [
-            'Ficção Científica',
-            'Mistério',
-            'Romance',
-            'Aventura',
-            'Fantasias',
-            'História',
-            'Biografia',
-            'Terror',
-            'Drama',
-            'Psicologia',
-            'Filosofia',
-            'Religião',
-            'Política',
-            'Economia',
-            'Arte',
-            'Literatura Clássica',
-            'Poesia',
-            'Tecnologia',
-            'Ciência',
-            'Educação'
+            'Ficção Científica', 'Mistério', 'Romance', 'Aventura', 'Fantasias'
         ];
 
-        foreach ($subjectsData as $subjectDescription) {
-            $subject = new Subject();
-            $subject->setDescription($subjectDescription);  // Define a descrição mockada do assunto
+        foreach ($subjectsData as $i => $subjectDescription) {
+            // Verifica se o assunto já existe
+            $subject = $subjectRepository->findOneBy(['description' => $subjectDescription]);
 
-            // Persistir o assunto no banco
-            $manager->persist($subject);
+            if (!$subject) {
+                $subject = new Subject();
+                $subject->setDescription($subjectDescription);
+                $manager->persist($subject);
+            }
+
+            // Adicionar referência para cada assunto (existente ou novo)
+            $this->addReference(self::SUBJECT_REFERENCE . '_' . $i, $subject);
         }
 
-        // Salvar os assuntos no banco de dados
         $manager->flush();
     }
 }

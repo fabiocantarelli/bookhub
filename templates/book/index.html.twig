@@ -16,12 +16,17 @@
 
     <div class="card">
         <div class="card-header">
-            <div class="row">
-                <div class="col-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            <div class="row justify-content-between">
+                <div class="col-8">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#new-bookModal">
                         <i class="bi bi-plus-lg"></i> Adicionar
                     </button>
+                </div>
+                <div class="col-4">
+                    <a href="{{ path('app_report_generate') }}" class="btn btn-secondary float-end" target="_blank">
+                        <i class="bi bi-file-earmark-pdf"></i> Gerar relatório PDF
+                    </a>
                 </div>
             </div>
         </div>
@@ -104,7 +109,7 @@
 
         $('input[type="number"]').on('keydown', function (e) {
             // Impede '-' e 'e' (notação científica)
-            if (e.key === '-' || e.key === 'e') {
+            if (e.key === '-' || e.key === 'e' || e.key === '+') {
                 e.preventDefault();
             }
         });

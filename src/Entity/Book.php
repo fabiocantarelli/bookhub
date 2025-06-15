@@ -16,7 +16,7 @@ class Book
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Column(name: 'CodL', type: Types::INTEGER)]
     /** @phpstan-ignore-next-line */
     private ?int $id = null;
 
@@ -40,8 +40,8 @@ class Book
      */
     #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
     #[ORM\JoinTable(name: 'Livro_Autor')]
-    #[ORM\JoinColumn(name: 'Livro_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'Autor_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'Livro_CodL', referencedColumnName: 'CodL')]
+    #[ORM\InverseJoinColumn(name: 'Autor_CodAu', referencedColumnName: 'CodAu')]
     private Collection $authors;
 
     /**
@@ -49,8 +49,8 @@ class Book
      */
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'books')]
     #[ORM\JoinTable(name: 'Livro_Assunto')]
-    #[ORM\JoinColumn(name: 'Livro_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'Assunto_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'Livro_CodL', referencedColumnName: 'CodL')]
+    #[ORM\InverseJoinColumn(name: 'Assunto_CodAs', referencedColumnName: 'CodAs')]
     private Collection $subjects;
 
     public function __construct()
