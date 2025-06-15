@@ -71,7 +71,7 @@
                     <th>Editora</th>
                     <th>Edição</th>
                     <th>Assuntos</th>
-                    <th class="text-right">Valor (R$)</th>
+                    <th class="text-right">Valor</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,11 +79,11 @@
                     {% for book in author.books %}
                         <tr>
                             <td>{{ book.title }}</td>
+                            <td>{{ book.yearOfPublication }}</td>
                             <td>{{ book.publisher }}</td>
                             <td>{{ book.edition }}</td>
-                            <td>{{ book.yearOfPublication }}</td>
                             <td>{{ book.subjects }}</td>
-                            <td class="text-right">{{ book.price }}</td>
+                            <td class="text-right">R$ {{ book.price|number_format(2, ',', '.') }}</td>
                         </tr>
                     {% endfor %}
                 {% else %}
