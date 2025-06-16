@@ -56,3 +56,15 @@ run-fixtures-dev: ## Carrega fixtures de desenvolvimento
 perms: ## Ajuste de permissões em caso de erros
 	@sudo chown $(shell whoami):www-data -R .
 	@sudo chmod 777 -R var/
+
+## ___________________________________________________
+##
+## 🪲 Tests de Código
+## ___________________________________________________
+
+phpstan: ## Testes php stan
+	@docker exec -it bookhub-php composer phpstan
+
+phpcs: ## Testes code sniffer
+	@docker exec -it bookhub-php composer phpcs
+	

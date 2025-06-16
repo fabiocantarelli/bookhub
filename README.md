@@ -42,6 +42,16 @@
 
 Em essência, o Bookhub serve como ponto central para organizar e consultar informações sobre obras literárias, seguindo boas práticas de desenvolvimento (camada de persistência, tratamento de erros específicos, formatação de campos, uso de CSS/Bootstrap, testes automatizados e geração de relatórios).
 
+## Geração de Relatórios em PDF
+
+O sistema utiliza o [**KnpSnappyBundle**](https://github.com/KnpLabs/KnpSnappyBundle) em conjunto com o **wkhtmltopdf** para converter templates HTML em arquivos PDF. Essa integração é utilizada para gerar os relatórios do acervo de forma automatizada e com layout consistente.
+
+## 🐋 Ambiente de Execução Docker
+
+O projeto roda em **Docker** utilizando uma imagem personalizada definida em `docker/config/php/Dockerfile`, orquestrada via **docker-compose**.
+Alternativamente, também é possível rodar o projeto fora do Docker, desde que todos os pacotes e extensões listados no Dockerfile estejam devidamente instalados no ambiente local.
+
+
 ---
 
 ## Como rodar o projeto
@@ -235,4 +245,3 @@ Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configu
 │       └── list.html.twig
 └── webpack.config.js
 ```
-

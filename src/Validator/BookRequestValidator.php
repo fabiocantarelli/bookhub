@@ -144,9 +144,9 @@ final class BookRequestValidator
             throw new \Exception('A editora não pode ter mais de ' . self::PUBLISHER_MAX_LENGTH . ' caracteres.');
         }
 
-        if (mb_strlen($yearOfPublication, 'UTF-8') > self::YEAR_OF_PUBLICATION_MAX_LENGTH) {
+        if (mb_strlen($yearOfPublication, 'UTF-8') !== self::YEAR_OF_PUBLICATION_MAX_LENGTH) {
             throw new \Exception(
-                'O ano de publicação não pode ter mais de ' . self::YEAR_OF_PUBLICATION_MAX_LENGTH . ' caracteres.'
+                'O ano de publicação precisa ter exatamente ' . self::YEAR_OF_PUBLICATION_MAX_LENGTH . ' caracteres.'
             );
         }
 
