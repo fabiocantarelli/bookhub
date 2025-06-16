@@ -1,11 +1,7 @@
 services:
   php:
     build:
-      context: ./docker/config/php
-      args:
-        PHP_VERSION: ${PHP_VERSION:-8.4}
-        COMPOSER_VERSION: ${COMPOSER_VERSION:-latest}
-        NODE_VERSION: ${NODE_VERSION:-latest}
+      context: ./
     container_name: bookhub-php
     hostname: bookhub-php
     restart: always
@@ -28,7 +24,7 @@ services:
     depends_on:
       - php
     volumes:
-      - ./docker/config/proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./public:/app/public
     ports:
       - "80:80"
@@ -55,6 +51,7 @@ services:
 
 volumes:
   bookhub_mysql_data:
+    name: bookhub_mysql_data
 
 networks:
   default:

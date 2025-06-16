@@ -1,24 +1,17 @@
-ARG NODE_VERSION
-ARG PHP_VERSION
-ARG COMPOSER_VERSION
-
 # Etapa 1: Node.js
-FROM node:${NODE_VERSION} AS node-build
+FROM node:22.16.0 AS node
 
 # Etapa 2: Composer
-FROM composer:${COMPOSER_VERSION} AS composer
+FROM composer:latest AS composer
 
 # Etapa 3: PHP-FPM + Node
-FROM php:${PHP_VERSION}-fpm AS php-fpm
-
+FROM php:8.4-fpm AS php-fpm
 
 # Copia Node.js + npm 
-COPY --from=node-build /usr/local/ /usr/local/
+COPY --from=node /usr/local/ /usr/local/
 
 # Dependências
 RUN apt update && apt install -y \
-    nano \
-    sshpass \
     procps \
     acl \
     apt-transport-https \
@@ -28,7 +21,6 @@ RUN apt update && apt install -y \
     curl \
     file \
     gettext \
-    git \
     wget \
     zip \
     unzip \
@@ -36,7 +28,6 @@ RUN apt update && apt install -y \
     mariadb-client \
     odbcinst \
     libodbc1 \
-    zsh \
     iputils-ping \
     tzdata \
     gnupg \
@@ -54,11 +45,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # PHP Extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions opcache xdebug oci8 sockets amqp intl pdo pdo_oci soap gd pgsql mysqli odbc pdo_mysql pdo_pgsql pdo_odbc
-
-# Symfony CLI
-RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash && \
-    apt install -y symfony-cli
+    install-php-extensions opcache xdebug sockets intl pdo gd pgsql mysqli odbc pdo_mysql
 
 # Expor porta do PHP-FPM
 EXPOSE 9000

@@ -48,7 +48,7 @@ O sistema utiliza o [**KnpSnappyBundle**](https://github.com/KnpLabs/KnpSnappyBu
 
 ## 🐋 Ambiente de Execução Docker
 
-O projeto roda em **Docker** utilizando uma imagem personalizada definida em `docker/config/php/Dockerfile`, orquestrada via **docker-compose**.
+O projeto roda em **Docker** utilizando uma imagem personalizada definida em `Dockerfile`, orquestrada via **docker-compose**.
 Alternativamente, também é possível rodar o projeto fora do Docker, desde que todos os pacotes e extensões listados no Dockerfile estejam devidamente instalados no ambiente local.
 
 
@@ -58,16 +58,10 @@ Alternativamente, também é possível rodar o projeto fora do Docker, desde que
 
 Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
 
-**Obs:** Os comandos abaixo também estão presentes no makefile, caso tenha o pacote **make** instalado, basta rodar `make help`
+**Obs:** Os comandos abaixo também estão presentes no makefile, caso tenha o pacote **make** instalado, basta rodar `make help` ou `make start` para instalar e configurar o projeto.
 
-1. **Configuração de variáveis de ambiente**
-   Copie o arquivo de exemplo e ajuste as credenciais de acesso ao MySQL:
-
-   ```bash
-   cp .env .env.local
-   ```
-
-   Preencha em `.env.local`:
+1. **Configuração de variáveis de ambiente (opcional - DEV)**
+   Preencha em `.env` caso não esteja rodando em `APP_ENV=dev` :
 
    ```ini
    MYSQL_DATABASE=bookhub
@@ -106,7 +100,15 @@ Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
    docker exec -it bookhub-php bin/console doctrine:migration:migrate
    ```
 
-Pronto! O Bookhub estará disponível em `http://localhost` (ou na porta configurada).
+<h2 align="center">✅ Pronto! O Bookhub estará disponível.</h2>
+
+#### 📌 Acesse o sistema via: [localhost (HTTP)](http://localhost:80)
+
+**Obs:** Caso tenha problemas de acesso, tente em aba anonima, pode ser cache do navegador referente a outras aplicações.
+
+---
+
+## Passos opcionais
 
 1. **Carregamento de fixtures dev Autor / Assunto / Livros (opcional)**
 
