@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Vo;
 
-class SubjectDto
+use Symfony\Component\HttpFoundation\Request;
+
+class SubjectVo
 {
     private ?int $id = null;
     private ?string $description = null;
@@ -14,7 +16,7 @@ class SubjectDto
         return $this->id;
     }
 
-    public function setId(int $id): self
+    public function setId(?int $id): self
     {
         $this->id = $id;
 
@@ -26,10 +28,17 @@ class SubjectDto
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
+    }
+
+    public static function buildData(Request $request): self
+    {
+        return (new self())
+            ->setId((int) $request->get('id'))
+            ->setDescription($request->get('description'));
     }
 }

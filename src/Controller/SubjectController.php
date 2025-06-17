@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Vo\SubjectVo;
 use App\Enum\FlashTypeEnum;
 use App\Repository\SubjectRepository;
 use App\Validator\SubjectRequestValidator;
@@ -28,7 +29,6 @@ final class SubjectController extends AbstractController implements AbstractCrud
 
         return $this->render('subject/index.html.twig', [
             'title' => 'Assunto',
-            'controller_name' => 'SubjectController',
             'subjects' => $subjects,
         ]);
     }
@@ -37,10 +37,9 @@ final class SubjectController extends AbstractController implements AbstractCrud
     public function new(Request $request): Response
     {
         try {
-            $subjectDto = $this->subjectRequestValidator
-                ->validateNewRequest($request);
-
-            $this->subjectRepository->save($subjectDto);
+            $this->subjectRequestValidator->validateNewRequest($request);
+            $subjectVo = SubjectVo::buildData($request);
+            $this->subjectRepository->save($subjectVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto inserido com sucesso!');
 
@@ -55,12 +54,12 @@ final class SubjectController extends AbstractController implements AbstractCrud
     public function edit(Request $request): Response
     {
         try {
-            $subjectDto = $this->subjectRequestValidator
-                ->validateEditRequest($request);
-
-            $this->subjectRepository->update($subjectDto);
+            $this->subjectRequestValidator->validateEditRequest($request);
+            $subjectVo = SubjectVo::buildData($request);
+            $this->subjectRepository->update($subjectVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto editado com sucesso!');
+
             return $this->redirectToRoute('app_subject_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
@@ -72,10 +71,9 @@ final class SubjectController extends AbstractController implements AbstractCrud
     public function delete(Request $request): Response
     {
         try {
-            $subjectDto = $this->subjectRequestValidator
-                ->validateDeleteRequest($request);
-
-            $this->subjectRepository->delete($subjectDto);
+            $this->subjectRequestValidator->validateDeleteRequest($request);
+            $subjectVo = SubjectVo::buildData($request);
+            $this->subjectRepository->delete($subjectVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');
             return $this->redirectToRoute('app_subject_index');

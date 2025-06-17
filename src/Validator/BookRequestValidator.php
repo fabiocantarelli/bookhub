@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
-use App\Dto\BookDto;
-use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
-use App\Repository\SubjectRepository;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Author;
-use App\Entity\Subject;
 
 final class BookRequestValidator
 {
@@ -22,12 +17,10 @@ final class BookRequestValidator
 
     public function __construct(
         readonly private BookRepository $bookRepository,
-        readonly private AuthorRepository $authorRepository,
-        readonly private SubjectRepository $subjectRepository
     ) {
     }
 
-    public function validateNewRequest(Request $request): BookDto
+    public function validateNewRequest(Request $request): void
     {
         $title = $request->get('title');
         $publisher = $request->get('publisher');
@@ -46,21 +39,9 @@ final class BookRequestValidator
             $authorIds,
             $subjectIds
         );
-
-        $authors = $this->getAuthorsFromIds($authorIds);
-        $subjects = $this->getSubjectsFromIds($subjectIds);
-
-        return (new BookDto())
-            ->setTitle($title)
-            ->setPublisher($publisher)
-            ->setEdition($edition)
-            ->setYearOfPublication($yearOfPublication)
-            ->setPrice($price)
-            ->setAuthors($authors)
-            ->setSubjects($subjects);
     }
 
-    public function validateEditRequest(Request $request): BookDto
+    public function validateEditRequest(Request $request): void
     {
         $id = (int) $request->get('id');
         $title = $request->get('title');
@@ -75,32 +56,25 @@ final class BookRequestValidator
             throw new \Exception('Id não informado ou inválido!');
         }
 
-        $this->validateBookData($title, $publisher, $edition, $yearOfPublication, $price, $authorIds, $subjectIds, $id);
-
-        $authors = $this->getAuthorsFromIds($authorIds);
-        $subjects = $this->getSubjectsFromIds($subjectIds);
-
-        return (new BookDto())
-            ->setId($id)
-            ->setTitle($title)
-            ->setPublisher($publisher)
-            ->setEdition($edition)
-            ->setYearOfPublication($yearOfPublication)
-            ->setPrice($price)
-            ->setAuthors($authors)
-            ->setSubjects($subjects);
+        $this->validateBookData(
+            $title,
+            $publisher,
+            $edition,
+            $yearOfPublication,
+            $price,
+            $authorIds,
+            $subjectIds,
+            $id
+        );
     }
 
-    public function validateDeleteRequest(Request $request): BookDto
+    public function validateDeleteRequest(Request $request): void
     {
         $id = (int) $request->get('id');
 
         if (empty($id)) {
             throw new \Exception('Id não informado ou inválido!');
         }
-
-        return (new BookDto())
-            ->setId($id);
     }
 
     /**
@@ -163,33 +137,5 @@ final class BookRequestValidator
         if ($findBook && $findBook->getId() !== $id) {
             throw new \Exception('Título já existe!');
         }
-    }
-
-    /**
-     * @param int[] $authorIds
-     *
-     * @return Author[]
-     */
-    private function getAuthorsFromIds(array $authorIds): array
-    {
-        $authors = [];
-        foreach ($authorIds as $authorId) {
-            $authors[] = $this->authorRepository->find($authorId);
-        }
-        return $authors;
-    }
-
-    /**
-     * @param int[] $subjectIds
-     *
-     * @return Subject[]
-     */
-    private function getSubjectsFromIds(array $subjectIds): array
-    {
-        $subjects = [];
-        foreach ($subjectIds as $subjectId) {
-            $subjects[] = $this->subjectRepository->find($subjectId);
-        }
-        return $subjects;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Dto\SubjectDto;
+use App\Vo\SubjectVo;
 use App\Entity\Subject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,33 +19,33 @@ class SubjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Subject::class);
     }
 
-    public function save(SubjectDto $subjectDto): void
+    public function save(SubjectVo $subjectVo): void
     {
         $em = $this->getEntityManager();
 
         $subject = new Subject();
-        $subject->setDescription($subjectDto->getDescription());
+        $subject->setDescription($subjectVo->getDescription());
 
         $em->persist($subject);
         $em->flush();
     }
 
-    public function update(SubjectDto $subjectDto): void
+    public function update(SubjectVo $subjectVo): void
     {
         $em = $this->getEntityManager();
 
-        $subject = $this->find($subjectDto->getId());
-        $subject->setDescription($subjectDto->getDescription());
+        $subject = $this->find($subjectVo->getId());
+        $subject->setDescription($subjectVo->getDescription());
 
         $em->persist($subject);
         $em->flush();
     }
 
-    public function delete(SubjectDto $subjectDto): void
+    public function delete(SubjectVo $subjectVo): void
     {
         $em = $this->getEntityManager();
 
-        $subject = $this->find($subjectDto->getId());
+        $subject = $this->find($subjectVo->getId());
 
         $em->remove($subject);
         $em->flush();

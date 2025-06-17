@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
-use App\Dto\SubjectDto;
 use App\Repository\SubjectRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,16 +16,13 @@ class SubjectRequestValidator
     ) {
     }
 
-    public function validateNewRequest(Request $request): SubjectDto
+    public function validateNewRequest(Request $request): void
     {
         $description = $request->get('description');
         $this->validateDescription($description);
-
-        return (new SubjectDto())
-            ->setDescription($description);
     }
 
-    public function validateEditRequest(Request $request): SubjectDto
+    public function validateEditRequest(Request $request): void
     {
         $id = (int) $request->get('id');
         $description = $request->get('description');
@@ -36,13 +32,9 @@ class SubjectRequestValidator
         }
 
         $this->validateDescription($description, $id);
-
-        return (new SubjectDto())
-            ->setId($id)
-            ->setDescription($description);
     }
 
-    public function validateDeleteRequest(Request $request): SubjectDto
+    public function validateDeleteRequest(Request $request): void
     {
         $id = (int) $request->get('id');
 
@@ -57,9 +49,6 @@ class SubjectRequestValidator
                 'Não é possivel remover o assunto, existem livros vinculados a ele!'
             );
         }
-
-        return (new SubjectDto())
-            ->setId($id);
     }
 
     private function validateDescription(string $description, ?int $id = null): void

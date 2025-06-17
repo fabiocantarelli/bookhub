@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Dto\AuthorDto;
+use App\Vo\AuthorVo;
 use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,33 +17,33 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
-    public function save(AuthorDto $authorDto): void
+    public function save(AuthorVo $authorVo): void
     {
         $em = $this->getEntityManager();
 
         $author = new Author();
-        $author->setName($authorDto->getName());
+        $author->setName($authorVo->getName());
 
         $em->persist($author);
         $em->flush();
     }
 
-    public function update(AuthorDto $authorDto): void
+    public function update(AuthorVo $authorVo): void
     {
         $em = $this->getEntityManager();
 
-        $author = $this->find($authorDto->getId());
-        $author->setName($authorDto->getName());
+        $author = $this->find($authorVo->getId());
+        $author->setName($authorVo->getName());
 
         $em->persist($author);
         $em->flush();
     }
 
-    public function delete(AuthorDto $authorDto): void
+    public function delete(AuthorVo $authorVo): void
     {
         $em = $this->getEntityManager();
 
-        $author = $this->find($authorDto->getId());
+        $author = $this->find($authorVo->getId());
 
         $em->remove($author);
         $em->flush();

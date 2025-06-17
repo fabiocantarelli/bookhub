@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Vo\AuthorVo;
 use App\Enum\FlashTypeEnum;
 use App\Repository\AuthorRepository;
 use App\Validator\AuthorRequestValidator;
@@ -36,8 +37,9 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     public function new(Request $request): Response
     {
         try {
-            $authorDto = $this->authorRequestValidator->validateNewRequest($request);
-            $this->authorRepository->save($authorDto);
+            $this->authorRequestValidator->validateNewRequest($request);
+            $authorVo = AuthorVo::buildData($request);
+            $this->authorRepository->save($authorVo);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Autor inserido com sucesso!');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
@@ -50,8 +52,9 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     public function edit(Request $request): Response
     {
         try {
-            $authorDto = $this->authorRequestValidator->validateEditRequest($request);
-            $this->authorRepository->update($authorDto);
+            $this->authorRequestValidator->validateEditRequest($request);
+            $authorVo = AuthorVo::buildData($request);
+            $this->authorRepository->update($authorVo);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Autor editado com sucesso!');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
@@ -64,8 +67,9 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     public function delete(Request $request): Response
     {
         try {
-            $authorDto = $this->authorRequestValidator->validateDeleteRequest($request);
-            $this->authorRepository->delete($authorDto);
+            $this->authorRequestValidator->validateDeleteRequest($request);
+            $authorVo = AuthorVo::buildData($request);
+            $this->authorRepository->delete($authorVo);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Autor deletado com sucesso!');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());

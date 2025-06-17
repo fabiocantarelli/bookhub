@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Vo\BookVo;
 use App\Enum\FlashTypeEnum;
 use App\Repository\BookRepository;
 use App\Repository\AuthorRepository;
@@ -45,9 +46,9 @@ final class BookController extends AbstractController implements AbstractCrudCon
     public function new(Request $request): Response
     {
         try {
-            $bookDto = $this->bookRequestValidator->validateNewRequest($request);
-
-            $this->bookRepository->save($bookDto);
+            $this->bookRequestValidator->validateNewRequest($request);
+            $bookVo = BookVo::buildData($request);
+            $this->bookRepository->save($bookVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro inserido com sucesso!');
 
@@ -62,9 +63,9 @@ final class BookController extends AbstractController implements AbstractCrudCon
     public function edit(Request $request): Response
     {
         try {
-            $bookDto = $this->bookRequestValidator->validateEditRequest($request);
-
-            $this->bookRepository->update($bookDto);
+            $this->bookRequestValidator->validateEditRequest($request);
+            $bookVo = BookVo::buildData($request);
+            $this->bookRepository->update($bookVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro editado com sucesso!');
             return $this->redirectToRoute('app_book_index');
@@ -78,9 +79,9 @@ final class BookController extends AbstractController implements AbstractCrudCon
     public function delete(Request $request): Response
     {
         try {
-            $bookDto = $this->bookRequestValidator->validateDeleteRequest($request);
-
-            $this->bookRepository->delete($bookDto);
+            $this->bookRequestValidator->validateDeleteRequest($request);
+            $bookVo = BookVo::buildData($request);
+            $this->bookRepository->delete($bookVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');
             return $this->redirectToRoute('app_book_index');

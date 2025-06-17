@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Vo;
 
-use App\Entity\Author;
-use App\Entity\Subject;
+use Symfony\Component\HttpFoundation\Request;
 
-class BookDto
+class BookVo
 {
     private ?int $id = null;
     private ?string $title = null;
@@ -16,10 +15,10 @@ class BookDto
     private ?string $yearOfPublication = null;
     private ?float $price = null;
 
-    /** @var Author[] */
+    /** @var int[] */
     private array $authors = [];
 
-    /** @var Subject[] */
+    /** @var int[] */
     private array $subjects = [];
 
     public function getId(): ?int
@@ -27,7 +26,7 @@ class BookDto
         return $this->id;
     }
 
-    public function setId(int $id): self
+    public function setId(?int $id): self
     {
         $this->id = $id;
         return $this;
@@ -38,7 +37,7 @@ class BookDto
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
         return $this;
@@ -49,7 +48,7 @@ class BookDto
         return $this->publisher;
     }
 
-    public function setPublisher(string $publisher): self
+    public function setPublisher(?string $publisher): self
     {
         $this->publisher = $publisher;
         return $this;
@@ -60,7 +59,7 @@ class BookDto
         return $this->edition;
     }
 
-    public function setEdition(int $edition): self
+    public function setEdition(?int $edition): self
     {
         $this->edition = $edition;
         return $this;
@@ -71,7 +70,7 @@ class BookDto
         return $this->yearOfPublication;
     }
 
-    public function setYearOfPublication(string $year): self
+    public function setYearOfPublication(?string $year): self
     {
         $this->yearOfPublication = $year;
         return $this;
@@ -82,43 +81,56 @@ class BookDto
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(?float $price): self
     {
         $this->price = $price;
         return $this;
     }
 
     /**
-     * @return Author[]
+     * @return int[]
      */
-    public function getAuthors(): array
+    public function getAuthorsId(): array
     {
         return $this->authors;
     }
 
     /**
-     * @param Author[] $authors
+     * @param int[] $authors
      */
-    public function setAuthors(array $authors): self
+    public function setAuthorsId(array $authors): self
     {
         $this->authors = $authors;
         return $this;
     }
 
     /**
-     * @return Subject[]
+     * @return int[]
      */
-    public function getSubjects(): array
+    public function getSubjectsId(): array
     {
         return $this->subjects;
     }
 
     /**
-     * @param Subject[] $subjects
+     * @param int[] $subjects
      */
-    public function setSubjects(array $subjects): self
+    public function setSubjectsId(array $subjects): self
     {
         $this->subjects = $subjects;
         return $this;
+    }
+
+    public static function buildData(Request $request): self
+    {
+        return (new self())
+            ->setId((int) $request->get('id'))
+            ->setTitle($request->get('title'))
+            ->setPublisher($request->get('publisher'))
+            ->setEdition((int) $request->get('edition'))
+            ->setYearOfPublication($request->get('yearOfPublication'))
+            ->setPrice((float) $request->get('price'))
+            ->setAuthorsId($request->get('authors') ?? [])
+            ->setSubjectsId($request->get('subjects') ?? []);
     }
 }
