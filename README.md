@@ -1,7 +1,7 @@
 # Bookhub
 
 <p align="center">
-  <img src="assets/images/logo/bookhub_logo_1.png" alt="Bookhub Logo" width="200" />
+  <img src=".readme/img/bookhub_logo_1.png" alt="Bookhub Logo" width="200" />
 </p>
 
   <div align="center">
@@ -128,6 +128,12 @@ Siga os passos abaixo para configurar e iniciar o Bookhub utilizando Docker:
    sudo chmod 777 -R var/
    ```
 ---
+
+## Diagrama do banco de dados
+
+<p align="center">
+  <img src=".readme/img/database_diagram.png" alt="Diagram Database" width="100%" />
+</p>
 
 ## Configuração de rotas
 

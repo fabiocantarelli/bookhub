@@ -12,11 +12,11 @@ class BookByAuthorView
     #[ORM\Id]
     #[ORM\Column(name: 'CodVw')]
     /** @phpstan-ignore-next-line */
-    private ?int $id;
+    private int $id;
 
     #[ORM\Column(name: 'Livro_CodL')]
     /** @phpstan-ignore-next-line */
-    private ?int $bookId;
+    private ?int $bookId = null;
 
     #[ORM\Column(name: 'Autor_CodAu')]
     /** @phpstan-ignore-next-line */
@@ -28,23 +28,23 @@ class BookByAuthorView
 
     #[ORM\Column(name: 'Livro_Titulo')]
     /** @phpstan-ignore-next-line */
-    private string $bookTitle;
+    private ?string $bookTitle = null;
 
     #[ORM\Column(name: 'Livro_Editora')]
     /** @phpstan-ignore-next-line */
-    private string $bookPublisher;
+    private ?string $bookPublisher = null;
 
     #[ORM\Column(name: 'Livro_Edicao')]
     /** @phpstan-ignore-next-line */
-    private int $bookEdition;
+    private ?int $bookEdition = null;
 
     #[ORM\Column(name: 'Livro_Ano')]
     /** @phpstan-ignore-next-line */
-    private string $bookYearOfPublication;
+    private ?string $bookYearOfPublication = null;
 
     #[ORM\Column(name: 'Livro_Valor')]
     /** @phpstan-ignore-next-line */
-    private float $bookPrice;
+    private ?float $bookPrice = null;
 
     #[ORM\Column(name: 'Assunto_Descricao')]
     /** @phpstan-ignore-next-line */
@@ -70,27 +70,27 @@ class BookByAuthorView
         return $this->authorName;
     }
 
-    public function getBookTitle(): string
+    public function getBookTitle(): ?string
     {
         return $this->bookTitle;
     }
 
-    public function getBookPublisher(): string
+    public function getBookPublisher(): ?string
     {
         return $this->bookPublisher;
     }
 
-    public function getBookEdition(): int
+    public function getBookEdition(): ?int
     {
         return $this->bookEdition;
     }
 
-    public function getBookYearOfPublication(): string
+    public function getBookYearOfPublication(): ?string
     {
         return $this->bookYearOfPublication;
     }
 
-    public function getBookPrice(): float
+    public function getBookPrice(): ?float
     {
         return $this->bookPrice;
     }

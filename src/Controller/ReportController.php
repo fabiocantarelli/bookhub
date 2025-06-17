@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\AuthorRepository;
 use App\Repository\BookByAuthorViewRepository;
 use App\Utils\AssetsUtils;
 use App\Utils\FileUtils;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

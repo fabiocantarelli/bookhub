@@ -32,12 +32,9 @@
 
         .flash-message {
             position: fixed;
-            top: 0;
-            left: 250px;
-            /* largura da sidebar */
-            right: 0;
+            top: 5px;
+            width: 50vw;
             z-index: 9999;
-            padding: 1rem;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -84,7 +81,7 @@
             {% for message in messages %}
             <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show flash-message"
                 role="alert">
-                {{ message }}
+                <strong>{{ label }}!</strong> {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
             </div>
             {% endfor %}
