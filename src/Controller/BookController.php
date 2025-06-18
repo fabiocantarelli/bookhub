@@ -33,11 +33,15 @@ final class BookController extends AbstractController implements CrudControllerI
         $authors = $this->authorRepository->findAll();
         $subjects = $this->subjectRepository->findAll();
 
+        $currentDate = (new \DateTime());
+        $currentYearFormated = $currentDate->format('Y');
+
         return $this->render('book/index.html.twig', [
             'title' => 'Livros',
             'books' => $books,
             'authors' => $authors,
             'subjects' => $subjects,
+            'currentYear' => $currentYearFormated
 
         ]);
     }

@@ -109,6 +109,13 @@ final class BookRequestValidator
             default => ''
         };
 
+        $currentDate = (new \DateTime());
+        $currentYearFormated = $currentDate->format('Y');
+
+        if ($yearOfPublication > $currentYearFormated) {
+            throw new \Exception('Você não pode inserir um ano de publicação superior ao atual!');
+        }
+
         if (mb_strlen($title, 'UTF-8') > self::TITLE_MAX_LENGTH) {
             throw new \Exception('O título não pode ter mais de ' . self::TITLE_MAX_LENGTH . ' caracteres.');
         }
