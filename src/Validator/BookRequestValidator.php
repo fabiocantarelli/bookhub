@@ -13,7 +13,6 @@ final class BookRequestValidator
     private const TITLE_MAX_LENGTH = 40;
     private const PUBLISHER_MAX_LENGTH = 40;
     private const YEAR_OF_PUBLICATION_MAX_LENGTH = 4;
-    private const MAX_PRICE = 999999.99;
 
     public function __construct(
         readonly private BookRepository $bookRepository,
@@ -128,8 +127,8 @@ final class BookRequestValidator
             throw new \Exception('A edição não pode ser maior que ' . self::MAX_EDITION);
         }
 
-        if ($price > self::MAX_PRICE) {
-            throw new \Exception('O preço não pode ser maior que ' . self::MAX_PRICE);
+        if (!is_float($price)) {
+            throw new \Exception('O valor do livro deve conter ser apenas números.');
         }
 
         $findBook = $this->bookRepository->findOneBy(['title' => $title]);

@@ -67,6 +67,7 @@
     $(document).ready(() => {
         $('#subjects-table').DataTable({
             autoWidth: false,
+            order: [[0, 'desc']],
             columnDefs: [
                 {
                     targets: [-1],

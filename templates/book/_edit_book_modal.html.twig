@@ -2,12 +2,12 @@
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header text-bg-primary">
-                <h1 class="modal-title fs-5" id="editBookModalLabel"><i class="bi bi-plus-lg"></i> Editar livro
-                </h1>
+                <h1 class="modal-title fs-5" id="editBookModalLabel"><i class="bi bi-plus-lg"></i> Editar livro</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="edit-bookForm" method="post">
                 <input type="hidden" name="_method" value="PUT">
+
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="edit-title" class="col-form-label">Título:</label>
@@ -30,16 +30,16 @@
                             id="edit-yearOfPublication" placeholder="Ex: 1999" required>
                     </div>
                     <div class="mb-3">
-                        <label for="edit-price" class="col-form-label">Preço:</label>
-                        <input name="price" type="number" step="0.01" min="0.01" max="999999.99" class="form-control" id="edit-price"
-                            placeholder="Ex: 25.99" required>
+                        <label for="edit-price" class="col-form-label">Preço R$:</label>
+                        <input type="text" class="form-control" id="edit-price"
+                            placeholder="Ex: 25,99" required>
                     </div>
                     <div class="mb-3">
                         <label for="edit-authors" class="col-form-label">Autor(es):</label>
                         <select name="authors[]" id="edit-authors" class="form-select select2" multiple required
                             data-placeholder="Selecione um ou mais autor(es)">
                             {% for author in authors %}
-                            <option value="{{ author.id }}">{{ author.name }}</option>
+                                <option value="{{ author.id }}">{{ author.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -48,7 +48,7 @@
                         <select name="subjects[]" id="edit-subjects" class="form-select select2" multiple required
                             data-placeholder="Selecione um ou mais assunto(s)">
                             {% for subject in subjects %}
-                            <option value="{{ subject.id }}">{{ subject.description }}</option>
+                                <option value="{{ subject.id }}">{{ subject.description }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -63,6 +63,8 @@
 
 <script>
     $(document).ready(() => {
+        $('#edit-price').mask('#.##0,00', { reverse: true });
+
         $('#edit-bookModal').on('show.bs.modal', function (event) {
             const btn = $(event.relatedTarget);
             const id = btn.data('id');
@@ -82,36 +84,38 @@
             $('#edit-publisher').val(publisher);
             $('#edit-edition').val(edition);
             $('#edit-yearOfPublication').val(year);
-            $('#edit-price').val(price);
 
-            const $authors = $('#edit-authors')
-                .val(authors)
-                .trigger('change');
-
-            const $subjects = $('#edit-subjects')
-                .val(subjects)
-                .trigger('change');
-        });
-        
-        $('#edit-yearOfPublication').on('input', function () {
-            let val = $(this).val();
-            if (val.length > 4) {
-                $(this).val(val.slice(0, 4));
+            if (price !== undefined && price !== null) {
+                const fixedPrice = parseFloat(price).toFixed(2);
+                $('#edit-price').val(fixedPrice).trigger('input');
+            } else {
+                $('#edit-price').val('');
             }
+
+            $('#edit-authors').val(authors).trigger('change');
+            $('#edit-subjects').val(subjects).trigger('change');
+        });
+
+        $('#edit-yearOfPublication').on('input', function () {
+            const val = $(this).val();
+            if (val.length > 4) $(this).val(val.slice(0, 4));
         });
 
         $('#edit-edition').on('input', function () {
-            let val = $(this).val();
-            if (val.length > 5) {
-                $(this).val(val.slice(0, 5));
-            }
+            const val = $(this).val();
+            if (val.length > 5) $(this).val(val.slice(0, 5));
         });
 
-        $('#edit-price').on('input', function () {
-            let val = $(this).val();
-            if (val.length > 9) {
-                $(this).val(val.slice(0, 9));
-            }
+        $('#edit-bookForm').on('submit', function () {
+            const masked = $('#edit-price').val();
+            const clean = masked.replace(/\./g, '').replace(',', '.');
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'price',
+                value: clean
+            }).appendTo(this);
         });
-    })
+    });
 </script>
+
+

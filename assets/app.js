@@ -9,15 +9,13 @@
 
 // 1) jQuery – deve vir antes de plugins que dependem dele
 import $ from 'jquery';
+import 'jquery-mask-plugin';
 global.$ = global.jQuery = $;
-
 
 import 'bootstrap';
 
 const dt = require('datatables.net-bs5');
 const select2 = require('select2');
-
-
 
 import './styles/app.scss';
 import './styles/app.css';
