@@ -6,7 +6,7 @@ namespace App\Vo;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class BookVo
+final class BookVo implements RequestVoInterface
 {
     private ?int $id = null;
     private ?string $title = null;
@@ -121,9 +121,9 @@ class BookVo
         return $this;
     }
 
-    public static function buildData(Request $request): self
+    public static function buildDataFromRequest(Request $request): static
     {
-        return (new self())
+        return (new static())
             ->setId((int) $request->get('id'))
             ->setTitle($request->get('title'))
             ->setPublisher($request->get('publisher'))

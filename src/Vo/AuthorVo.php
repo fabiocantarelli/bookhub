@@ -6,7 +6,7 @@ namespace App\Vo;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class AuthorVo
+final class AuthorVo implements RequestVoInterface
 {
     private ?int $id = null;
     private ?string $name = null;
@@ -35,9 +35,9 @@ class AuthorVo
         return $this;
     }
 
-    public static function buildData(Request $request): self
+    public static function buildDataFromRequest(Request $request): static
     {
-        return (new self())
+        return (new static())
             ->setId((int) $request->get('id'))
             ->setName($request->get('name'));
     }

@@ -13,7 +13,7 @@ final class BookRequestValidator
     private const TITLE_MAX_LENGTH = 40;
     private const PUBLISHER_MAX_LENGTH = 40;
     private const YEAR_OF_PUBLICATION_MAX_LENGTH = 4;
-    private const MAX_PRICE = 99999.99;
+    private const MAX_PRICE = 999999.99;
 
     public function __construct(
         readonly private BookRepository $bookRepository,

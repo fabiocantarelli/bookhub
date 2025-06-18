@@ -6,7 +6,7 @@ namespace App\Vo;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class SubjectVo
+final class SubjectVo implements RequestVoInterface
 {
     private ?int $id = null;
     private ?string $description = null;
@@ -35,9 +35,9 @@ class SubjectVo
         return $this;
     }
 
-    public static function buildData(Request $request): self
+    public static function buildDataFromRequest(Request $request): static
     {
-        return (new self())
+        return (new static())
             ->setId((int) $request->get('id'))
             ->setDescription($request->get('description'));
     }

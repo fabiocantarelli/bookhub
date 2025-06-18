@@ -38,7 +38,7 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     {
         try {
             $this->authorRequestValidator->validateNewRequest($request);
-            $authorVo = AuthorVo::buildData($request);
+            $authorVo = AuthorVo::buildDataFromRequest($request);
             $this->authorRepository->save($authorVo);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Autor inserido com sucesso!');
         } catch (\Exception $exception) {
@@ -53,7 +53,7 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     {
         try {
             $this->authorRequestValidator->validateEditRequest($request);
-            $authorVo = AuthorVo::buildData($request);
+            $authorVo = AuthorVo::buildDataFromRequest($request);
             $this->authorRepository->update($authorVo);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Autor editado com sucesso!');
         } catch (\Exception $exception) {
@@ -68,7 +68,7 @@ final class AuthorController extends AbstractController implements AbstractCrudC
     {
         try {
             $this->authorRequestValidator->validateDeleteRequest($request);
-            $authorVo = AuthorVo::buildData($request);
+            $authorVo = AuthorVo::buildDataFromRequest($request);
             $this->authorRepository->delete($authorVo);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Autor deletado com sucesso!');
         } catch (\Exception $exception) {

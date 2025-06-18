@@ -47,7 +47,7 @@ final class BookController extends AbstractController implements AbstractCrudCon
     {
         try {
             $this->bookRequestValidator->validateNewRequest($request);
-            $bookVo = BookVo::buildData($request);
+            $bookVo = BookVo::buildDataFromRequest($request);
             $this->bookRepository->save($bookVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro inserido com sucesso!');
@@ -64,7 +64,7 @@ final class BookController extends AbstractController implements AbstractCrudCon
     {
         try {
             $this->bookRequestValidator->validateEditRequest($request);
-            $bookVo = BookVo::buildData($request);
+            $bookVo = BookVo::buildDataFromRequest($request);
             $this->bookRepository->update($bookVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro editado com sucesso!');
@@ -80,7 +80,7 @@ final class BookController extends AbstractController implements AbstractCrudCon
     {
         try {
             $this->bookRequestValidator->validateDeleteRequest($request);
-            $bookVo = BookVo::buildData($request);
+            $bookVo = BookVo::buildDataFromRequest($request);
             $this->bookRepository->delete($bookVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');

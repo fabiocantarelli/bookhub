@@ -38,7 +38,7 @@ final class SubjectController extends AbstractController implements AbstractCrud
     {
         try {
             $this->subjectRequestValidator->validateNewRequest($request);
-            $subjectVo = SubjectVo::buildData($request);
+            $subjectVo = SubjectVo::buildDataFromRequest($request);
             $this->subjectRepository->save($subjectVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto inserido com sucesso!');
@@ -55,7 +55,7 @@ final class SubjectController extends AbstractController implements AbstractCrud
     {
         try {
             $this->subjectRequestValidator->validateEditRequest($request);
-            $subjectVo = SubjectVo::buildData($request);
+            $subjectVo = SubjectVo::buildDataFromRequest($request);
             $this->subjectRepository->update($subjectVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto editado com sucesso!');
@@ -72,7 +72,7 @@ final class SubjectController extends AbstractController implements AbstractCrud
     {
         try {
             $this->subjectRequestValidator->validateDeleteRequest($request);
-            $subjectVo = SubjectVo::buildData($request);
+            $subjectVo = SubjectVo::buildDataFromRequest($request);
             $this->subjectRepository->delete($subjectVo);
 
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');
