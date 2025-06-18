@@ -7,7 +7,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-interface AbstractCrudControllerInterface
+interface CrudControllerInterface
 {
     public function index(): Response;
     public function new(Request $request): Response;

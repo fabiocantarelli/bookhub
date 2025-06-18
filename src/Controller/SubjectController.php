@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/subject', name: 'app_subject_')]
-final class SubjectController extends AbstractController implements AbstractCrudControllerInterface
+final class SubjectController extends AbstractController implements CrudControllerInterface
 {
     public function __construct(
         private readonly SubjectRepository $subjectRepository,

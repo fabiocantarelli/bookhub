@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/author', name: 'app_author_')]
-final class AuthorController extends AbstractController implements AbstractCrudControllerInterface
+final class AuthorController extends AbstractController implements CrudControllerInterface
 {
     public function __construct(
         private readonly AuthorRequestValidator $authorRequestValidator,

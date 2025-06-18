@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/book', name: 'app_book_')]
-final class BookController extends AbstractController implements AbstractCrudControllerInterface
+final class BookController extends AbstractController implements CrudControllerInterface
 {
     public function __construct(
         private readonly BookRepository $bookRepository,
