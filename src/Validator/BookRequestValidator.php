@@ -127,10 +127,6 @@ final class BookRequestValidator
             throw new \Exception('A edição não pode ser maior que ' . self::MAX_EDITION);
         }
 
-        if (!is_float($price)) {
-            throw new \Exception('O valor do livro deve conter ser apenas números.');
-        }
-
         $findBook = $this->bookRepository->findOneBy(['title' => $title]);
 
         if ($findBook && $findBook->getId() !== $id) {
