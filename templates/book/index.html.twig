@@ -13,6 +13,7 @@
 
     {% include 'book/_new_book_modal.html.twig' %}
     {% include 'book/_edit_book_modal.html.twig' %}
+    {% include 'addons/_delete_confirm_modal.html.twig' %}
 
     <div class="card">
         <div class="card-header">
@@ -72,13 +73,14 @@
                                 data-edition="{{ book.edition }}" data-year="{{ book.yearOfPublication }}"
                                 data-price="{{ book.price }}" data-authors="{{ book.authors|map(a=>a.id)|join(',') }}"
                                 data-subjects="{{ book.subjects|map(s=>s.id)|join(',') }}">
-                                <i class="bi bi-pencil-fill"></i> Atualizar
+                                <i class="bi bi-pencil-fill"></i> Editar
                             </button>
-                            <form action="{{ path('app_book_delete', { id: book.id }) }}" method="post">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-danger w-100"><i class="bi bi-trash"></i>
-                                    Deletar</button>
-                            </form>
+                            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                data-bs-target="#delete-confirm-modal" data-id="{{ book.id }}" data-item-name="{{ book.title }}"
+                                data-route-path="{{ path('app_book_delete', {'id': book.id }) }}"><i
+                                    class="bi bi-trash"></i>
+                                Deletar
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}

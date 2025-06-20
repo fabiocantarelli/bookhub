@@ -13,6 +13,7 @@
 
     {% include 'subject/_new_subject_modal.html.twig' %}
     {% include 'subject/_edit_subject_modal.html.twig' %}
+    {% include 'addons/_delete_confirm_modal.html.twig' %}
 
     <div class="card">
         <div class="card-header">
@@ -43,14 +44,16 @@
                             <button type="button" class="btn btn-warning edit-subject-btn me-2 mb-1 w-100"
                                 data-bs-toggle="modal" data-bs-target="#edit-subjectModal" data-id="{{ subject.id }}"
                                 data-description="{{ subject.description }}">
-                                <i class="bi bi-pencil-fill"></i> Atualizar
+                                <i class="bi bi-pencil-fill"></i> Editar
                             </button>
-                            <form action="{{ path('app_subject_delete', { id: subject.id }) }}" method="post">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-danger w-100">
-                                    <i class="bi bi-trash"></i> Deletar
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                data-bs-target="#delete-confirm-modal" 
+                                data-id="{{ subject.id }}" 
+                                data-item-name="{{ subject.description }}"
+                                data-route-path="{{ path('app_subject_delete', {'id': subject.id }) }}">
+                                <i class="bi bi-trash"></i>
+                                Deletar
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}

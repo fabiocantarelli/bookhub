@@ -13,6 +13,7 @@
 
     {% include 'author/_new_author_modal.html.twig' %}
     {% include 'author/_edit_author_modal.html.twig' %}
+    {% include 'addons/_delete_confirm_modal.html.twig' %}
 
     <div class="card">
         <div class="card-header">
@@ -40,17 +41,18 @@
                         <td>{{ author.id }}</td>
                         <td>{{ author.name }}</td>
                         <td>
-                            <button type="button" class="btn btn-warning edit-author-btn me-2 mb-1 w-100" data-bs-toggle="modal"
-                                data-bs-target="#edit-authorModal" data-id="{{ author.id }}"
+                            <button type="button" class="btn btn-warning edit-author-btn me-2 mb-1 w-100"
+                                data-bs-toggle="modal" data-bs-target="#edit-authorModal" data-id="{{ author.id }}"
                                 data-name="{{ author.name }}">
-                                <i class="bi bi-pencil-fill"></i> Atualizar
+                                <i class="bi bi-pencil-fill"></i> Editar
                             </button>
-                            <form action="{{ path('app_author_delete', { id: author.id }) }}" method="post">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-danger w-100">
-                                    <i class="bi bi-trash"></i> Deletar
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                data-bs-target="#delete-confirm-modal" data-id="{{ author.id }}"
+                                data-item-name="{{ author.name }}" 
+                                data-route-path="{{ path('app_author_delete', {'id': author.id }) }}">
+                                <i class="bi bi-trash"></i>
+                                Deletar
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}

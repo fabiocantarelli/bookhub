@@ -1,0 +1,36 @@
+<div class="modal fade" id="delete-confirm-modal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header text-bg-danger">
+                <h1 class="modal-title fs-5" id="deleteConfirmModalLabel"><i class="bi bi-trash"></i> Confirmação de deleção</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="delete-confirm-form" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <div class="modal-body">
+                    Você realmente deseja deletar este registro ?
+                    <p class="p-4"><span id="delete-confirm-modal-item-name"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-check"></i>
+                        Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+        $(document).ready(() => {
+            $('#delete-confirm-modal').on('show.bs.modal', function (event) {
+                const btn = $(event.relatedTarget);
+                const id = btn.data('id');
+                const itemName = btn.data('item-name');
+                const routePath = btn.data('route-path');
+
+                $('#delete-confirm-modal-item-name').html('Id: ' + id + '<br>' + ' Item: ' + itemName);
+                $('#delete-confirm-form').attr('action', routePath);
+            });
+        });
+</script>
