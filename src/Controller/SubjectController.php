@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Vo\SubjectVo;
 use App\Enum\FlashTypeEnum;
 use App\Repository\SubjectRepository;
+use App\Services\SubjectService;
 use App\Validator\SubjectRequestValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,32 +18,21 @@ use Symfony\Component\Routing\Attribute\Route;
 final class SubjectController extends AbstractController implements CrudControllerInterface
 {
     public function __construct(
-        private readonly SubjectRepository $subjectRepository,
-        private readonly SubjectRequestValidator $subjectRequestValidator
+        private readonly SubjectService $subjectService
     ) {
     }
 
     #[Route('/', name: 'index', methods: [Request::METHOD_GET])]
     public function index(): Response
     {
-        $subjects = $this->subjectRepository->findAll();
-
-        return $this->render('subject/index.html.twig', [
-            'title' => 'Assunto',
-            'subjects' => $subjects,
-        ]);
+        return $this->render('subject/index.html.twig', $this->subjectService->list());
     }
 
     #[Route('/', name: 'new', methods: [Request::METHOD_POST])]
     public function new(Request $request): Response
     {
         try {
-            $this->subjectRequestValidator->validateNewRequest($request);
-            $subjectVo = SubjectVo::buildDataFromRequest($request);
-            $this->subjectRepository->save($subjectVo);
-
-            $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto inserido com sucesso!');
-
+            $this->subjectService->new($request);
             return $this->redirectToRoute('app_subject_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
@@ -54,12 +44,8 @@ final class SubjectController extends AbstractController implements CrudControll
     public function edit(Request $request): Response
     {
         try {
-            $this->subjectRequestValidator->validateEditRequest($request);
-            $subjectVo = SubjectVo::buildDataFromRequest($request);
-            $this->subjectRepository->update($subjectVo);
-
+            $this->subjectService->edit($request);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Assunto editado com sucesso!');
-
             return $this->redirectToRoute('app_subject_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
@@ -71,10 +57,7 @@ final class SubjectController extends AbstractController implements CrudControll
     public function delete(Request $request): Response
     {
         try {
-            $this->subjectRequestValidator->validateDeleteRequest($request);
-            $subjectVo = SubjectVo::buildDataFromRequest($request);
-            $this->subjectRepository->delete($subjectVo);
-
+            $this->subjectService->delete($request);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');
             return $this->redirectToRoute('app_subject_index');
         } catch (\Exception $exception) {

@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Vo\BookVo;
 use App\Enum\FlashTypeEnum;
-use App\Repository\BookRepository;
-use App\Repository\AuthorRepository;
-use App\Repository\SubjectRepository;
-use App\Validator\BookRequestValidator;
+use App\Services\BookService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,43 +15,22 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BookController extends AbstractController implements CrudControllerInterface
 {
     public function __construct(
-        private readonly BookRepository $bookRepository,
-        private readonly AuthorRepository $authorRepository,
-        private readonly SubjectRepository $subjectRepository,
-        private readonly BookRequestValidator $bookRequestValidator,
+        private readonly BookService $bookService,
     ) {
     }
 
     #[Route('/', name: 'index', methods: [Request::METHOD_GET])]
     public function index(): Response
     {
-        $books = $this->bookRepository->findAll();
-        $authors = $this->authorRepository->findAll();
-        $subjects = $this->subjectRepository->findAll();
-
-        $currentDate = (new \DateTime());
-        $currentYearFormated = $currentDate->format('Y');
-
-        return $this->render('book/index.html.twig', [
-            'title' => 'Livros',
-            'books' => $books,
-            'authors' => $authors,
-            'subjects' => $subjects,
-            'currentYear' => $currentYearFormated
-
-        ]);
+        return $this->render('book/index.html.twig', $this->bookService->list());
     }
 
     #[Route('/', name: 'new', methods: [Request::METHOD_POST])]
     public function new(Request $request): Response
     {
         try {
-            $this->bookRequestValidator->validateNewRequest($request);
-            $bookVo = BookVo::buildDataFromRequest($request);
-            $this->bookRepository->save($bookVo);
-
+            $this->bookService->new($request);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro inserido com sucesso!');
-
             return $this->redirectToRoute('app_book_index');
         } catch (\Exception $exception) {
             $this->addFlash(FlashTypeEnum::ERROR->value, $exception->getMessage());
@@ -67,10 +42,7 @@ final class BookController extends AbstractController implements CrudControllerI
     public function edit(Request $request): Response
     {
         try {
-            $this->bookRequestValidator->validateEditRequest($request);
-            $bookVo = BookVo::buildDataFromRequest($request);
-            $this->bookRepository->update($bookVo);
-
+            $this->bookService->edit($request);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro editado com sucesso!');
             return $this->redirectToRoute('app_book_index');
         } catch (\Exception $exception) {
@@ -83,10 +55,7 @@ final class BookController extends AbstractController implements CrudControllerI
     public function delete(Request $request): Response
     {
         try {
-            $this->bookRequestValidator->validateDeleteRequest($request);
-            $bookVo = BookVo::buildDataFromRequest($request);
-            $this->bookRepository->delete($bookVo);
-
+            $this->bookService->delete($request);
             $this->addFlash(FlashTypeEnum::SUCCESS->value, 'Livro deletado com sucesso!');
             return $this->redirectToRoute('app_book_index');
         } catch (\Exception $exception) {
